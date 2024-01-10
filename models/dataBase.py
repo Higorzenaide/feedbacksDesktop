@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 import streamlit as st
 from supabase import create_client, Client
+import pandas as pd
 
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -73,3 +74,16 @@ class SupabaseClient:
             st.success('Dados inseridos com sucesso')
         except Exception as e:
             st.error(f'Ocorreu algum erro inesperado{e}: Por favor tente novamente...')
+
+    def visualizarDadosUser(self,id):
+        try:
+            if id == None or id == '':
+                st.header('Faça login para vizualizar dados')
+                return
+            response = self.client.table('feedbacks').select('motivo_macro','motivo','Nome_colaborador','date').eq('id_gestor', id).execute()
+            # Converter a resposta para um DataFrame do pandas
+            data = pd.DataFrame(response)
+            result= response.data
+            st.write(result)
+        except Exception as e:
+            st.write(e)
