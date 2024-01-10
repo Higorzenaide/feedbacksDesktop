@@ -62,6 +62,8 @@ class SupabaseClient:
     def _inserirCadastroNoBanco(self,nome,matricula,senha,email):
         try:
             data,count = self.client.table('users').insert({"Gestor":nome,"matricula":matricula,"senha":senha,"email":email,"verificado":False}).execute()
+            st.success('Cadastro efetuado com sucesso')
+            print(data,count)
         except Exception as e:
             st.error(f'Ocorreu algum erro inesperado{e}: Por favor tente novamente...')
     
