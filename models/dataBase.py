@@ -70,5 +70,6 @@ class SupabaseClient:
     def inserirFeedback(self,date,motivo_macro,motivo,textoLivre,id_gestor,nome):
         try:
             data,count = self.client.table('feedbacks').insert({"date":date,"motivo_macro":motivo_macro,"motivo":motivo,"texto_livre":textoLivre,"id_gestor":id_gestor,"Nome_colaborador":nome}).execute()
+            st.success('Dados inseridos com sucesso')
         except Exception as e:
             st.error(f'Ocorreu algum erro inesperado{e}: Por favor tente novamente...')
