@@ -11,9 +11,8 @@ from PIL import Image
 def main():
     definirVariaveisDaSessao()
     configuracoesIniciais()
-    imagemSideBar()
     select = st.sidebar.selectbox('&nbsp;',['Selecione','Cadastrar colaborador','Inserir feedbacks','Visualizar feedbacks','Registrar presença','Inserir advertencia'])
-
+    imagemSideBar()
     st.sidebar.button('Sair')
     if select == 'Inserir feedbacks':
         mainInserirDados()
