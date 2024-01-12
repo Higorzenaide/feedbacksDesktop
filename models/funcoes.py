@@ -32,7 +32,7 @@ def configuracoesIniciais():
 
 def imagemSideBar():
      # Caminho relativo ao diretório de trabalho do aplicativo Streamlit
-    imagem_path = "images/logo4.jpeg"
+    imagem_path = "images/logo4.png"
 
     # Obtendo o diretório de trabalho atual
     diretorio_trabalho = os.getcwd()
