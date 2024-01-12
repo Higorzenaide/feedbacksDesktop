@@ -61,11 +61,8 @@ def main():
         start_time = st.time_input("Selecione a hora de início:", time(today.hour, today.minute))
         st.write("Horário de Término:")
         end_time = st.time_input("Selecione a hora de término:", time((today.hour + 1) % 24, today.minute))
-        st.write("Detalhes do agendamento:")
-        st.write(f"Data: {event_date}")
-        st.write(f"Horário de Início: {start_time.strftime('%H:%M')}")
-        st.write(f"Horário de Término: {end_time.strftime('%H:%M')}")
         st.write(f"Pessoa que está agendando: ")
+        st.button("Agendar")
 
     # Agendar Sala de Reunião - Coluna 2
     with col2:
