@@ -32,7 +32,7 @@ def configuracoesIniciais():
 
 def imagemSideBar():
     #Caminho da imagem
-    imagem_path = "F:\\Feedbacks\\feedbacksDesktop\\images\\logo3.jpeg"
+    imagem_path = "feedbacksDesktop\\images\\logo3.jpeg"
     imagem = Image.open(imagem_path)
 
     # Dividir a página em colunas
