@@ -31,17 +31,22 @@ def configuracoesIniciais():
     )
 
 def imagemSideBar():
-    #Caminho da imagem
-    imagem_path = "feedbacksDesktop\\images\\logo3.jpeg"
-    imagem = Image.open(imagem_path)
+     # Caminho relativo ao diretório de trabalho do aplicativo Streamlit
+    imagem_path = "feedbacksDesktop/images/logo3.jpeg"
 
-    # Dividir a página em colunas
-    col1, col2, col3 = st.columns([1, 1, 1])
+    # Obtendo o diretório de trabalho atual
+    diretorio_trabalho = os.getcwd()
 
-    # Coluna 1: Adicionar imagem à barra lateral
-    with col1:
+    # Construindo o caminho completo para a imagem
+    caminho_completo = os.path.join(diretorio_trabalho, imagem_path)
+
+    if os.path.exists(caminho_completo):
+        imagem = Image.open(caminho_completo)
         st.sidebar.image(imagem, use_column_width=True)
         st.sidebar.subheader("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GESTÃO COP")
+    else:
+        st.sidebar.error(f"Arquivo de imagem não encontrado: {caminho_completo}")
+
 
 def senha_valida(senha):
     caracteres_especiais = string.punctuation  # Obtem todos os caracteres especiais
