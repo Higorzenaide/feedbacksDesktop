@@ -1,30 +1,41 @@
 import streamlit as st
 from models.dataBase import SupabaseClient
-import string
-
-def senha_valida(senha):
-    caracteres_especiais = string.punctuation  # Obtem todos os caracteres especiais
-
-    # Verifica se pelo menos um caractere especial está presente na senha
-    if any(char in caracteres_especiais for char in senha):
-        if len(senha) >= 6:
-            return True
-    else:
-        return False
+from models.funcoes import configuracoesIniciais,senha_valida,imagemSideBar,definirVariaveisDaSessao
+from PIL import Image
 
 
 def main():
+
+    #Definindo as variaveis em cookies
+    definirVariaveisDaSessao()
+
+    #Definindo as configurações iniciais
+    configuracoesIniciais()
+
+    #Imagem e titulo SideBart
+    imagemSideBar()
+
+    #Valida se o usuário está logado
+    if st.session_state.logado == False:
+        pass
+    elif st.session_state.id != None:
+        st.header('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Você já está logado')
+        return
+    
+    #Instanciando o Banco de dados
     supabase_instance = SupabaseClient()
-    st.sidebar.title("GESTÃO DE FEEDBACK´S COP")
+
     st.header("Insira os dados para efetuar o seu cadastro")
     with st.form(key="include"):
         input_name = st.text_input(label="Insira o seu Nome completo")
         input_email = st.text_input(label="Insira o seu E-mail")
-        input_matricula = st.number_input("Insira a matrícula", step=1, format="%d",max_value=100000000)
-        input_pass = st.text_input(label="Insira a sua senha", type="password")
+        input_matricula = st.number_input("Insira sua matrícula", step=1, format="%d",max_value=100000000)
+        input_pass = st.text_input(label="Insira uma senha", type="password")
         confirmar_senha = st.text_input(label="Confirme sua senha",type="password")
-        input_button = st.form_submit_button("Cadastrar")
-            
+        input_button = st.form_submit_button("Cadastre-se")
+    
+    #Se o botão for cliclado
     if input_button:
         if len(input_name) > 5 and '' in input_name:
             pass
@@ -61,5 +72,6 @@ def main():
 
 
         supabase_instance.new_user(input_email,input_pass,input_name,input_matricula)
+        
 if __name__ == '__main__':
     main()

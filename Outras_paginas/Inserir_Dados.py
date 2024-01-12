@@ -2,20 +2,17 @@ import streamlit as st
 from datetime import datetime
 from models.dataBase import SupabaseClient
 
-if 'nomeLogado' not in st.session_state:
-    st.session_state.nomeLogado = False
-
-if 'loginValidado' not in st.session_state:
-    st.session_state.loginValidado = False
-
-if 'id' not in st.session_state:
-    st.session_state.id = None
-
 def main():
-    st.sidebar.title("GESTÃO DE FEEDBACK´S COP")
-    
+
+    if 'loginValidado' not in st.session_state:
+        st.session_state.loginValidado = False
     if st.session_state.loginValidado:
-        feedback_form()
+        if st.session_state.logado == True:
+            if st.session_state.supervisao == False:
+                st.error('Seu perfil não está habilitado para inserir feedbacks')
+                return
+            else:
+                feedback_form()
     else:
         st.header('Efetue o login para continuar')
 
