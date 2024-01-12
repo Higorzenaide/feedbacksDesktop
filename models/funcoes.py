@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import string
+import os
 
 def definirVariaveisDaSessao():
         #Variaveis em cookie
