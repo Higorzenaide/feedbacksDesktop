@@ -14,7 +14,8 @@ def main():
             else:
                 feedback_form()
     else:
-        st.header('Efetue o login para continuar')
+        st.header('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                  '&nbsp;&nbsp;****EFETUE LOGIN PARA CONTINUAR****')
 
 def feedback_form():
     if 'motivoMicro' not in st.session_state:

@@ -19,7 +19,8 @@ def main():
                 instanceSupa = SupabaseClient()
                 instanceSupa.visualizarDadosUser(st.session_state.id)
     else:
-        st.header('Efetue o login para continuar')
+        st.header('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                  '&nbsp;&nbsp;****EFETUE LOGIN PARA CONTINUAR****')
     
     
 if __name__ == '__main__':
