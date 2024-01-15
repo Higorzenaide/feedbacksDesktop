@@ -4,6 +4,7 @@ import string
 import os
 import json
 from streamlit_lottie import st_lottie
+from streamlit_option_menu import option_menu
 
 def definirVariaveisDaSessao():
         #Variaveis em cookie
@@ -62,7 +63,6 @@ def senha_valida(senha):
     else:
         return False
 
-
 def logout():
     def local_css(file_name):
         with open(file_name) as f:
@@ -89,6 +89,10 @@ def cadastroEfetuado():
     imagem_url = "images/cadastroEfetuado.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
 
+def efetuarLogin():
+    imagem_url = "images/efetuarlogin.png"  # Substitua pela URL da sua imagem
+    st.image(imagem_url, use_column_width=True)
+
 def lerJsonGif(filepath: str):
         with open(filepath, "r") as f:
          return json.load(f)
@@ -97,4 +101,15 @@ def mostrarGif(parametro):
     st_lottie(parametro,width=400,
     height=None,
     speed=1,)
-    
+
+def menuHorizontal():
+    selected2 = option_menu(None, ["Login", "Cadastro"], 
+        icons=['house', 'cloud-upload', "list-task", 'gear'], 
+        menu_icon="cast", default_index=0, orientation="horizontal")
+    return selected2
+
+def menuHorizontalSupervisorCOP():
+    selected2 = option_menu(None, ["Cadastrar colaborador", "Inserir feedbacks","Visualizar feedbacks","Registrar presença","Inserir advertencia","Inserir escala"], 
+        icons=['person', 'graph-up-arrow', "list-task", 'inbox-fill','hand-thumbs-down-fill','calendar2-week'], 
+        menu_icon="cast", default_index=0, orientation="horizontal")
+    return selected2

@@ -1,36 +1,32 @@
+
 #Imports
 import streamlit as st
-from dotenv import load_dotenv
 from models.dataBase import SupabaseClient
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif,loginefetuado
-from PIL import Image
-import json
-from streamlit_lottie import st_lottie
-from streamlit_option_menu import option_menu
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif,loginefetuado,menuHorizontal
 from Outras_paginas.Cadastro import main as mainCadastro
+
 #sessão principal
 def main():
+
+    #Chamando a função de configurações iniciais
+    configuracoesIniciais()
     
     #Definindo as variaveis em cookies
     definirVariaveisDaSessao()
+
+    #Se loginEfetuado mostre imagem e mais nada
     if st.session_state.logado:
         loginefetuado()
         return
     
-    # 2. horizontal menu
-    selected2 = option_menu(None, ["Login", "Cadastro"], 
-        icons=['house', 'cloud-upload', "list-task", 'gear'], 
-        menu_icon="cast", default_index=0, orientation="horizontal")
-    
-    if selected2 == 'Cadastro':
+    #Menu horizontal ['Login' ou 'Cadastro']
+    menu = menuHorizontal()
+    if menu == 'Cadastro':
         mainCadastro()
         return
     
     #Instanciando o Banco de dados
     supabase_instance = SupabaseClient()
-
-    #Chamando a função de configurações iniciais
-    # configuracoesIniciais()
 
     #Imagem e titulo SideBart
     imagemSideBar()
@@ -41,10 +37,11 @@ def main():
     #Header de login
     headerLogin()
 
+    #Separando a page em colunas
     col1, col2 = st.columns(2)
+    
     #Formulário
     with col1:
-    # Formulário
         with st.form("login", clear_on_submit=True):
             input_email = st.text_input(label="Insira o seu E-mail")
             input_pass = st.text_input(label="Insira a sua senha", type="password")
@@ -59,9 +56,9 @@ def main():
     #Botão clicado chama a função que valida o login
     if input_button:
         supabase_instance.login(input_email,input_pass)
+        #Reseta formulário
         st.session_state['input_email'] = ''
         st.session_state['input_pass'] = ''
-
 
 if __name__ == '__main__':
     main()
