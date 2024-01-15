@@ -1,6 +1,6 @@
 import streamlit as st
 from models.dataBase import SupabaseClient
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif,senha_valida
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif,senha_valida,logado
 from PIL import Image
 import time
 
@@ -18,8 +18,7 @@ def main():
     if st.session_state.logado == False:
         pass
     elif st.session_state.id != None:
-        st.header('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Você já está logado')
+        logado()
         return
     
     imagem_url = "images/cadastre.png"  # Substitua pela URL da sua imagem

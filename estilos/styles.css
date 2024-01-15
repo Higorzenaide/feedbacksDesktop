@@ -19,6 +19,7 @@ section[data-testid="stSidebar"] div.stButton button {
     border-radius: 4px;
 }
 
-/* #root > div:nth-child(1) > svg:nth-child(1){
-    width: 50px;
-} */
+.st-emotion-cache-1cypcdb{
+    max-width: 300px
+}
+

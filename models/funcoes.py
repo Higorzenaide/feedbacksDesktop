@@ -75,6 +75,14 @@ def headerLogin():
     imagem_url = "images/login.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
 
+def logado():
+    imagem_url = "images/logado.png"  # Substitua pela URL da sua imagem
+    st.image(imagem_url, use_column_width=True)
+
+def loginefetuado():
+    imagem_url = "images/loginefetuado.png"  # Substitua pela URL da sua imagem
+    st.image(imagem_url, use_column_width=True)
+
 def lerJsonGif(filepath: str):
         with open(filepath, "r") as f:
          return json.load(f)

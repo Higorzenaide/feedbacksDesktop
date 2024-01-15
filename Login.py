@@ -2,16 +2,19 @@
 import streamlit as st
 from dotenv import load_dotenv
 from models.dataBase import SupabaseClient
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif,loginefetuado
 from PIL import Image
 import json
 from streamlit_lottie import st_lottie
 
 #sessão principal
 def main():
+    
     #Definindo as variaveis em cookies
     definirVariaveisDaSessao()
-
+    if st.session_state.logado:
+        loginefetuado()
+        return
     #Instanciando o Banco de dados
     supabase_instance = SupabaseClient()
 

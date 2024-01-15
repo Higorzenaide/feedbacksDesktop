@@ -51,6 +51,7 @@ class SupabaseClient:
                     st.session_state.loginValidado = True
                     gestor_value = response.data[0]['Gestor']
                     st.session_state.nomeLogado = gestor_value
+                    st.experimental_rerun()
         except Exception as e:
             st.write(f"Falha ao logar usuário: {e}")
     
