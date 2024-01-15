@@ -6,7 +6,8 @@ from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisD
 from PIL import Image
 import json
 from streamlit_lottie import st_lottie
-
+from streamlit_option_menu import option_menu
+from Outras_paginas.Cadastro import main as mainCadastro
 #sessão principal
 def main():
     
@@ -15,11 +16,21 @@ def main():
     if st.session_state.logado:
         loginefetuado()
         return
+    
+    # 2. horizontal menu
+    selected2 = option_menu(None, ["Login", "Cadastro"], 
+        icons=['house', 'cloud-upload', "list-task", 'gear'], 
+        menu_icon="cast", default_index=0, orientation="horizontal")
+    
+    if selected2 == 'Cadastro':
+        mainCadastro()
+        return
+    
     #Instanciando o Banco de dados
     supabase_instance = SupabaseClient()
 
     #Chamando a função de configurações iniciais
-    configuracoesIniciais()
+    # configuracoesIniciais()
 
     #Imagem e titulo SideBart
     imagemSideBar()

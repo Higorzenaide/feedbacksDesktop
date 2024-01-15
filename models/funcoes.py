@@ -21,6 +21,8 @@ def definirVariaveisDaSessao():
         st.session_state.nomeLogado = False
     if 'supervisao' not in st.session_state:
         st.session_state.supervisao = False
+    if 'cadastroEfetuado' not in st.session_state:
+        st.session_state.cadastroEfetuado = False
 
 
 def configuracoesIniciais():
@@ -81,6 +83,10 @@ def logado():
 
 def loginefetuado():
     imagem_url = "images/loginefetuado.png"  # Substitua pela URL da sua imagem
+    st.image(imagem_url, use_column_width=True)
+
+def cadastroEfetuado():
+    imagem_url = "images/cadastroEfetuado.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
 
 def lerJsonGif(filepath: str):

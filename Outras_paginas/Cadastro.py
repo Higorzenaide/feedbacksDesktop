@@ -1,6 +1,6 @@
 import streamlit as st
 from models.dataBase import SupabaseClient
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif,senha_valida,logado
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif,senha_valida,logado,cadastroEfetuado
 from PIL import Image
 import time
 
@@ -10,7 +10,7 @@ def main():
     definirVariaveisDaSessao()
 
     #Definindo as configurações iniciais
-    configuracoesIniciais()
+    # configuracoesIniciais()
 
     #Imagem e titulo SideBart
     imagemSideBar()
@@ -19,6 +19,11 @@ def main():
         pass
     elif st.session_state.id != None:
         logado()
+        return
+    
+    if st.session_state.cadastroEfetuado:
+        cadastroEfetuado()
+        logout()
         return
     
     imagem_url = "images/cadastre.png"  # Substitua pela URL da sua imagem
@@ -86,6 +91,7 @@ def main():
         st.session_state['input_pass'] = ''
         st.session_state['confirmar_senha'] = ''
         supabase_instance.new_user(input_email, input_pass, input_name, input_matricula)
+        st.session_state.cadastroEfetuado = True    
         
 if __name__ == '__main__':
     main()

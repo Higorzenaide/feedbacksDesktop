@@ -38,5 +38,3 @@ class MultiApp:
         
         if app == "Home":
             mainInserirAdvertencia()
-
-    run()            
