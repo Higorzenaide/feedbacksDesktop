@@ -4,7 +4,7 @@ from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
 from Outras_paginas.cadastrar_colaborador import main as mainCadastrarColaborador
 from Outras_paginas.registrar_presenca import main as mainRegistarPresenca
 from Outras_paginas.inserir_advertencia import main as mainInserirAdvertencia
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout
 
 from PIL import Image
 
@@ -16,6 +16,7 @@ def main():
 
     imagemSideBar()
     # st.sidebar.button('Sair')
+    logout()
     if select == 'Inserir feedbacks':
         mainInserirDados()
     elif select == 'Visualizar feedbacks':

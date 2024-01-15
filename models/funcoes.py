@@ -2,6 +2,8 @@ import streamlit as st
 from PIL import Image
 import string
 import os
+import json
+from streamlit_lottie import st_lottie
 
 def definirVariaveisDaSessao():
         #Variaveis em cookie
@@ -57,3 +59,28 @@ def senha_valida(senha):
             return True
     else:
         return False
+
+
+def logout():
+    def local_css(file_name):
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+    local_css("estilos/styles.css")
+
+    with st.sidebar:
+        st.button("logout")
+
+def headerLogin():
+    imagem_url = "images/login.png"  # Substitua pela URL da sua imagem
+    st.image(imagem_url, use_column_width=True)
+
+def lerJsonGif(filepath: str):
+        with open(filepath, "r") as f:
+         return json.load(f)
+
+def mostrarGif(parametro):
+    st_lottie(parametro,width=400,
+    height=None,
+    speed=1,)
+    

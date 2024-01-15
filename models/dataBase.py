@@ -3,7 +3,7 @@ import os
 import streamlit as st
 from supabase import create_client, Client
 import pandas as pd
-
+import time
 
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -28,28 +28,29 @@ class SupabaseClient:
     
     def login(self,email,password):
         try:
-            response = self.client.table('users').select('id','Gestor','verificado','supervisao','treinamentos').eq('email', email).eq('senha', password).execute()
-            if response.data is None or len(response.data) == 0:
-                st.write('Email ou senha, não confere')
-            else:
-                verificado = response.data[0]['verificado']
-                st.session_state.verificado = verificado
-                
-                if st.session_state.verificado == False:
-                    st.error('Seu usuário ainda não foi liberado, aguarde ou solicite a liberação.')
-                    return
-                
-                id_value = response.data[0]['id']
-                st.session_state.id = id_value
-                supervisao = response.data[0]['supervisao']
-                st.session_state.supervisao = supervisao
-                treinamentos = response.data[0]['treinamentos']
-                st.session_state.treinamentos = treinamentos
-                st.session_state.logado = True
-                st.success('Login efetuado com sucesso')
-                st.session_state.loginValidado = True
-                gestor_value = response.data[0]['Gestor']
-                st.session_state.nomeLogado = gestor_value
+            with st.spinner("Realizando o login..."):
+                response = self.client.table('users').select('id','Gestor','verificado','supervisao','treinamentos').eq('email', email).eq('senha', password).execute()
+                if response.data is None or len(response.data) == 0:
+                    st.error('Email ou senha, não confere')
+                else:
+                    verificado = response.data[0]['verificado']
+                    st.session_state.verificado = verificado
+                    
+                    if st.session_state.verificado == False:
+                        st.error('Seu usuário ainda não foi liberado, aguarde ou solicite a liberação.')
+                        return
+                    
+                    id_value = response.data[0]['id']
+                    st.session_state.id = id_value
+                    supervisao = response.data[0]['supervisao']
+                    st.session_state.supervisao = supervisao
+                    treinamentos = response.data[0]['treinamentos']
+                    st.session_state.treinamentos = treinamentos
+                    st.session_state.logado = True
+                    st.success('Login efetuado com sucesso')
+                    st.session_state.loginValidado = True
+                    gestor_value = response.data[0]['Gestor']
+                    st.session_state.nomeLogado = gestor_value
         except Exception as e:
             st.write(f"Falha ao logar usuário: {e}")
     
@@ -59,7 +60,9 @@ class SupabaseClient:
             st.success('Cadastro efetuado com sucesso')
             print(data,count)
         except Exception as e:
-            st.error(f'Ocorreu algum erro inesperado{e}: Por favor tente novamente...')
+            errorMensagem = st.error(f'Ocorreu algum erro inesperado{e}: Por favor tente novamente...')
+            time.sleep(5)
+            errorMensagem.empty()
     
     def inserirFeedback(self,date,motivo_macro,motivo,textoLivre,id_gestor,nome):
         try:

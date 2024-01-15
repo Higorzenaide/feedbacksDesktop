@@ -1,7 +1,7 @@
 import streamlit as st
 from Outras_paginas.Inserir_Dados import main as mainInserirDados
 from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
-from models.funcoes import configuracoesIniciais
+from models.funcoes import configuracoesIniciais,logout
 import calendar
 from datetime import datetime, time, timedelta
 def main():
@@ -9,10 +9,10 @@ def main():
 
    # Título da aplicação
     st.title("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calendário de Eventos")
-    st.header('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;****EM DESENVOLVIMENTO****')
+    imagem_url = "images/desenvolvimento1.png"  # Substitua pela URL da sua imagem
+    st.image(imagem_url, use_column_width=True)
 
-
+    logout()
     # Obter o ano e o mês atual
     today = datetime.today()
     year = st.number_input("Digite o ano:", int(today.year - 1), int(today.year + 1), today.year)
