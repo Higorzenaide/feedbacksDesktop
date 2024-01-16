@@ -1,9 +1,11 @@
 from dotenv import load_dotenv
 import os
+import json
 import streamlit as st
 from supabase import create_client, Client
 import pandas as pd
 import time
+from models.funcoes import DefinirSessao
 
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -51,6 +53,7 @@ class SupabaseClient:
                     st.session_state.loginValidado = True
                     gestor_value = response.data[0]['Gestor']
                     st.session_state.nomeLogado = gestor_value
+                    DefinirSessao()
                     st.experimental_rerun()
         except Exception as e:
             st.write(f"Falha ao logar usuário: {e}")
@@ -59,7 +62,6 @@ class SupabaseClient:
         try:
             data,count = self.client.table('users').insert({"Gestor":nome,"matricula":matricula,"senha":senha,"email":email,"verificado":False,"supervisao":False,"treinamentos":False}).execute()
             st.success('Cadastro efetuado com sucesso')
-            print(data,count)
         except Exception as e:
             errorMensagem = st.error(f'Ocorreu algum erro inesperado{e}: Por favor tente novamente...')
             time.sleep(5)
@@ -85,3 +87,51 @@ class SupabaseClient:
         except Exception as e:
             st.write(e)
 
+    def inserirAgendamentoSalaReuniao(self, dados_agendamento):
+        try:
+            # Carregar os dados do JSON
+            agendamento = json.loads(dados_agendamento)
+
+            # Extrair dados do dicionário
+            data_agendamento = agendamento["data"]
+            hora_inicio = agendamento["hora_inicio"]
+            hora_fim = agendamento["hora_termino"]
+            id_gestor = agendamento["id_usuario"]
+
+            # Inserir dados no Supabase
+            data, count = self.client.table('sala_de_reuniao').insert({
+                "data_agendamento": data_agendamento,
+                "hora_inicio": hora_inicio,
+                "hora_fim": hora_fim,
+                "id_gestor": id_gestor
+            }).execute()
+
+            Sucess = st.success('Agendamento efetuado com sucesso')
+            time.sleep(5)
+            Sucess.empty()
+        except Exception as e:
+            errorMensagem = st.error(f'Ocorreu algum erro inesperado {e}: Por favor, tente novamente...')
+            time.sleep(5)
+            errorMensagem.empty()
+    
+    def visualizarAgendamentos(self,dados_agendamento):
+        # Carregar os dados do JSON
+        agendamento = json.loads(dados_agendamento)
+
+        # Extrair dados do dicionário
+        data_agendamento = agendamento["data"]
+        hora_inicio = agendamento["hora_inicio"]
+        hora_fim = agendamento["hora_termino"]
+        id_gestor = agendamento["id_usuario"]
+
+        try:
+            with st.spinner("Realizando o login..."):
+                response = self.client.table('sala_de_reuniao').select('data_agendamento','hora_inicio','hora_fim','id_gestor').eq('data_agendamento', data_agendamento).execute()
+                # Converter a resposta para um DataFrame do pandas
+                data = pd.DataFrame(response)
+                result= response.data
+                st.write(result)
+        except Exception as e:
+            errorMensagem = st.error(f'Ocorreu algum erro inesperado {e}: Por favor, tente novamente...')
+            time.sleep(5)
+            errorMensagem.empty()

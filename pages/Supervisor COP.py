@@ -4,13 +4,15 @@ from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
 from Outras_paginas.cadastrar_colaborador import main as mainCadastrarColaborador
 from Outras_paginas.registrar_presenca import main as mainRegistarPresenca
 from Outras_paginas.inserir_advertencia import main as mainInserirAdvertencia
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,menuHorizontalSupervisorCOP,efetuarLogin
-
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,menuHorizontalSupervisorCOP,efetuarLogin,Calculasessao,fazerLogout
+from datetime import datetime, timedelta
 from PIL import Image
 
 def main():
     definirVariaveisDaSessao()
-    configuracoesIniciais()
+    
+    if st.session_state.configuracoesIniciais == False:
+        configuracoesIniciais()
 
     # select = st.sidebar.selectbox('&nbsp;',['Selecione','Cadastrar colaborador','Inserir feedbacks','Visualizar feedbacks','Registrar presença','Inserir advertencia'])
     imagemSideBar()
@@ -24,12 +26,34 @@ def main():
     logout_button_clicked = st.sidebar.button("Logout", key="logout")
 
     if logout_button_clicked:
-        st.session_state.logado = False
+        fazerLogout()
         st.experimental_rerun()
     
     if st.session_state.logado == False:
         efetuarLogin()
-        return
+        if st.session_state.sessao:
+            st.error("Sessão expirada, realize o login novamente...")
+            if st.session_state.rerun == False:
+                st.session_state.rerun = True
+                st.experimental_rerun()
+            else:
+                return
+        else:
+            return
+    
+    Calculasessao()
+
+    if st.session_state.logado == True:
+        if 'last_active_time' in st.session_state:
+            elapsed_time = datetime.now() - st.session_state.last_active_time
+            elapsed_minutes = elapsed_time.total_seconds() / 60  # Convert seconds to minutes
+            formatted_time = "{:.2f}".format(elapsed_minutes)
+            st.sidebar.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+            st.sidebar.markdown(f'<span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempo de sessão: {formatted_time.split(".")[0]} minutos</span>', unsafe_allow_html=True)
+    else:
+        st.experimental_rerun()
+
+
     menu = menuHorizontalSupervisorCOP()
     if menu == 'Inserir feedbacks':
         mainInserirDados()

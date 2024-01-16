@@ -5,6 +5,7 @@ import os
 import json
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
+from datetime import datetime, timedelta
 
 def definirVariaveisDaSessao():
         #Variaveis em cookie
@@ -24,6 +25,13 @@ def definirVariaveisDaSessao():
         st.session_state.supervisao = False
     if 'cadastroEfetuado' not in st.session_state:
         st.session_state.cadastroEfetuado = False
+    if 'configuracoesIniciais' not in st.session_state:
+        st.session_state.configuracoesIniciais = False
+    if 'rerun' not in st.session_state:
+        st.session_state.rerun = False
+    if 'sessao' not in st.session_state:
+        st.session_state.sessao = False
+
 
 
 def configuracoesIniciais():
@@ -34,6 +42,7 @@ def configuracoesIniciais():
         layout="centered",  # Ou "centered" se preferir centralizar o conteúdo
         initial_sidebar_state="expanded",  # Ou "collapsed" para a barra lateral recolhida
     )
+    st.session_state.configuracoesIniciais = True
 
 def imagemSideBar():
      # Caminho relativo ao diretório de trabalho do aplicativo Streamlit
@@ -113,3 +122,48 @@ def menuHorizontalSupervisorCOP():
         icons=['person', 'graph-up-arrow', "list-task", 'inbox-fill','hand-thumbs-down-fill','calendar2-week'], 
         menu_icon="cast", default_index=0, orientation="horizontal")
     return selected2
+
+def menuHorizontalSalaDeReuniao():
+    selected2 = option_menu(None, ["Realizar Agendamento", "Visualizar agendamentos","Editar seu Agendamento"], 
+        icons=['person', 'graph-up-arrow', "list-task", 'inbox-fill','hand-thumbs-down-fill','calendar2-week'], 
+        menu_icon="cast", default_index=0, orientation="horizontal")
+    return selected2
+
+def local_css(file_name):
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+
+def DefinirSessao():
+    # Função para verificar o login
+    # Verificando se há uma variável de sessão 'last_active_time'
+    if 'last_active_time' not in st.session_state:
+        # Se não existir, inicialize com o tempo atual
+        st.session_state.last_active_time = datetime.now()
+    else:
+        st.session_state.last_active_time = datetime.now()
+
+def Calculasessao():
+    # Calculando o tempo decorrido desde a última atividade
+    elapsed_time = datetime.now() - st.session_state.last_active_time
+    print('Chamei calcula sessão')
+    print(f'{elapsed_time, {datetime}}')
+    # Se o tempo decorrido for maior que 10 minutos, reinicialize a sessão
+    if elapsed_time > timedelta(minutes=10):
+        fazerLogout()
+        return True
+        
+def fazerLogout():
+        st.session_state.treinamentos = False
+        st.session_state.logado = False
+        st.session_state.verificado = False
+        st.session_state.id = None
+        st.session_state.loginValidado = False
+        st.session_state.nomeLogado = False
+        st.session_state.supervisao = False
+        st.session_state.cadastroEfetuado = False
+        st.session_state.configuracoesIniciais = False
+        st.session_state.rerun = False
+        st.session_state.last_active_time = False
+        st.session_state.sessao = True
+        return
