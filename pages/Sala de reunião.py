@@ -17,11 +17,13 @@ def main():
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
+    
+
    # Título da aplicação
     menu = menuHorizontalSalaDeReuniao()
 
     if menu == 'Realizar Agendamento':
-        imagem_url = "images/desenvolvimento1.png"  # Substitua pela URL da sua imagem
+        imagem_url = "images/REUNIAO.png"  # Substitua pela URL da sua imagem
         st.image(imagem_url, use_column_width=True)
         pass
     elif menu == 'Visualizar agendamentos':
@@ -88,6 +90,7 @@ def main():
     st.write("Horário de Término:")
     end_time = st.time_input("Selecione a hora de término:", time((today.hour + 1) % 24, today.minute))
     st.write(f'Pessoa que está agendando: {st.session_state.nomeLogado}')
+    pessoa = st.session_state.nomeLogado
     agendar = st.button("Agendar")
     instanciarSupaBase = SupabaseClient()
 
@@ -102,14 +105,16 @@ def main():
             "data": data_formatada,
             "hora_inicio": start_time_str,
             "hora_termino": end_time_str,
-            "id_usuario": st.session_state.id
+            "id_usuario": st.session_state.id,
+            "Gestor":pessoa
         }
 
         # Serializar o dicionário para JSON
         dados_agendamento_json = json.dumps(dados_agendamento)
+
         # Passar o JSON para a função
         instanciarSupaBase.inserirAgendamentoSalaReuniao(dados_agendamento_json)
-        # instanciarSupaBase.visualizarAgendamentos(dados_agendamento_json)
+
 
         
 
