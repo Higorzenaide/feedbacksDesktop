@@ -155,27 +155,30 @@ class SupabaseClient:
             st.write(e)
 
     def visualizarAgendamentos(self, data_agendamento):
-        response, data = self.client.table('sala_de_reuniao').select('data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor', 'created_at').eq('data_agendamento', data_agendamento).execute()
+        try:
+            response, data = self.client.table('sala_de_reuniao').select('data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor', 'created_at').eq('data_agendamento', data_agendamento).execute()
 
-        # Converter a resposta para um DataFrame do pandas
-        response_string = response[1]
-        resposta = json.loads(json.dumps(response_string))
+            # Converter a resposta para um DataFrame do pandas
+            response_string = response[1]
+            resposta = json.loads(json.dumps(response_string))
 
-        # Criar DataFrame a partir da lista de dicionários
-        df = pd.DataFrame(resposta, columns=['data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor', 'created_at'])
-        # Renomear as colunas
-        df = df.rename(columns={'data_agendamento': 'Data de agendamento',
-                                'hora_inicio': 'Horário de início',
-                                'hora_fim': 'Horário de término',
-                                'Gestor': 'Nome do responsável',
-                                'created_at': 'Agendado em'})
-        # Ajustar o fuso horário de created_at para o fuso horário desejado (por exemplo, 'America/Sao_Paulo')
-        df['Agendado em'] = pd.to_datetime(df['Agendado em']).dt.tz_convert('America/Sao_Paulo')
+            # Criar DataFrame a partir da lista de dicionários
+            df = pd.DataFrame(resposta, columns=['data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor', 'created_at'])
+            # Renomear as colunas
+            df = df.rename(columns={'data_agendamento': 'Data de agendamento',
+                                    'hora_inicio': 'Horário de início',
+                                    'hora_fim': 'Horário de término',
+                                    'Gestor': 'Nome do responsável',
+                                    'created_at': 'Agendado em'})
+            # Ajustar o fuso horário de created_at para o fuso horário desejado (por exemplo, 'America/Sao_Paulo')
+            df['Agendado em'] = pd.to_datetime(df['Agendado em']).dt.tz_convert('America/Sao_Paulo')
 
-        # Formatando a data sem o fuso horário
-        df['Agendado em'] = df['Agendado em'].dt.strftime('%Y-%m-%d %H:%M:%S')
+            # Formatando a data sem o fuso horário
+            df['Agendado em'] = df['Agendado em'].dt.strftime('%Y-%m-%d %H:%M:%S')
 
-        st.write(df)
+            st.write(df)
+        except Exception as e:
+            st.error("Não há nenhum agendamento nesta data selecionada...")
 
     def editarAgendamento(self, id):
         response, data = self.client.table('sala_de_reuniao').select('data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor').eq('id_gestor', id).execute()
