@@ -1,7 +1,7 @@
 import streamlit as st
 from Outras_paginas.Inserir_Dados import main as mainInserirDados
 from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
-from models.funcoes import configuracoesIniciais,logout,definirVariaveisDaSessao,local_css,menuHorizontalSalaDeReuniao
+from models.funcoes import configuracoesIniciais,logout,definirVariaveisDaSessao,local_css,menuHorizontalSalaDeReuniao,efetuarLogin
 from Outras_paginas.editar_agendamento_sala import main as mainEditarAgendamentoSala
 from Outras_paginas.visualizar_agendamento_sala import main as mainVisualizarAgendamentoSala
 import calendar
@@ -23,9 +23,11 @@ def main():
     menu = menuHorizontalSalaDeReuniao()
 
     if menu == 'Realizar Agendamento':
+        if st.session_state.logado == False:
+            efetuarLogin()
+            return
         imagem_url = "images/REUNIAO.png"  # Substitua pela URL da sua imagem
         st.image(imagem_url, use_column_width=True)
-        pass
     elif menu == 'Visualizar agendamentos':
         mainVisualizarAgendamentoSala()
         return
