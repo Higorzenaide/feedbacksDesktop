@@ -217,21 +217,18 @@ class SupabaseClient:
                 # Adicionar o novo valor à lista
                 novos_valores.append(novo_valor)
             
-            # Botão para confirmar a edição para cada linha
-            if st.button(f"Confirmar Edição para a linha {index + 1}"):
-                # Verifica se todos os campos não estão vazios
-                # if all(novo_valor for novo_valor in novos_valores):
-                #     # Cria um dicionário com os novos valores
-                #     novos_valores_dict = dict(zip(df.columns, novos_valores))
-                    
-                #     # Lógica para realizar a edição no agendamento para a linha específica do DataFrame
-                #     # Substitua a linha abaixo pela lógica real de atualização no seu banco de dados
-                #     self.client.table('sala_de_reuniao').update(novos_valores_dict).eq('id_gestor', id).execute()
-                    
-                    st.success("Agendamento editado com sucesso!")
-                    # st.experimental_rerun()  # Reinicia a aplicação Streamlit para refletir as alterações
-                # else:
-                #     st.warning("Preencha todos os campos antes de confirmar a edição.")
+            # Botões para confirmar a edição e excluir para cada linha
+            btn_confirmar = col[0].button(f"Confirmar Edição para a linha {index + 1}")
+            btn_excluir = col[1].button(f"Excluir linha {index + 1}")
+            
+            if btn_confirmar:
+                st.success("Agendamento editado com sucesso!")
+                # Adicione aqui a lógica para confirmar a edição no seu banco de dados
+                
+            if btn_excluir:
+                st.success("Linha excluída com sucesso!")
+                # Adicione aqui a lógica para excluir a linha no seu banco de dados
+
 
 
 
