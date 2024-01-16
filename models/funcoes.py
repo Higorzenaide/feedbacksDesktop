@@ -37,7 +37,7 @@ def definirVariaveisDaSessao():
 def configuracoesIniciais():
     #Configurações da pagina
     st.set_page_config(
-        page_title="Gestão COP",
+        page_title="GCP",
         page_icon="🚀",
         layout="centered",  # Ou "centered" se preferir centralizar o conteúdo
         initial_sidebar_state="expanded",  # Ou "collapsed" para a barra lateral recolhida
