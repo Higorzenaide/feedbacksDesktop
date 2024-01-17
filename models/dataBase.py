@@ -194,9 +194,6 @@ class SupabaseClient:
             st.error(f"Ocorreu um erro: {e}")
             return False
 
-
-
-
     def visualizarAgendamentos(self, data_agendamento):
         try:
             with st.spinner("Carregando agendamentos..."):
@@ -244,61 +241,59 @@ class SupabaseClient:
         
         # Definir o número de colunas desejado
         num_colunas = 1
-
-        # Adicionar os campos de edição dinamicamente em colunas
+        
         for index in range(len(df)):
-            st.write(f"Edição a sua data de agendamento: ")
+            st.write(f"Edição para a linha {index + 1}")
             col = st.columns(num_colunas)
+            novos_valores = []
+            # Lista para armazenar os novos valores
+            
+            for i, campo_nome in enumerate(df.columns):
+                chave = f"{index}_{campo_nome}"
 
-        # Lista para armazenar os novos valores
-        novos_valores = []
+                if campo_nome == 'hora_inicio' or campo_nome == 'hora_fim':
+                    novo_valor = col[i % num_colunas].time_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).time(), key=chave)
+                elif campo_nome == 'data_agendamento':
+                    novo_valor = col[i % num_colunas].date_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).date(), key=chave)
+                elif campo_nome == 'Gestor':
+                    # Campo do nome do Gestor é desabilitado para edição
+                    novo_valor = col[i % num_colunas].text_input(f"Novo {campo_nome}:", df[campo_nome].iloc[index], key=chave, disabled=True)
+                else:
+                    novo_valor = col[i % num_colunas].text_input(f"Novo {campo_nome}:", df[campo_nome].iloc[index], key=chave)
 
-        for i, campo_nome in enumerate(df.columns):
-            chave = f"{index}_{campo_nome}"
 
-            if campo_nome == 'hora_inicio' or campo_nome == 'hora_fim':
-                novo_valor = col[i % num_colunas].time_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).time(), key=chave)
-            elif campo_nome == 'data_agendamento':
-                novo_valor = col[i % num_colunas].date_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).date(), key=chave)
-                novo_valor = novo_valor.strftime('%Y-%m-%d')  # Converter para string no formato desejado
-            elif campo_nome == 'Gestor':
-                # Campo do nome do Gestor é desabilitado para edição
-                novo_valor = col[i % num_colunas].text_input(f"{campo_nome}:", df[campo_nome].iloc[index], key=chave, disabled=True)
-            else:
-                novo_valor = col[i % num_colunas].text_input(f"{campo_nome} do agendamento:", df[campo_nome].iloc[index], key=chave, disabled=True)
+                # Adicionar o novo valor à lista
+                novos_valores.append(novo_valor)
 
-            # Adicionar o novo valor à lista
-            novos_valores.append(novo_valor)
+            # Botões para confirmar a edição e excluir para cada linha
+            col1, col2, col3 = st.columns(3)
+            col1.empty()
+            with col2:
+                btn_confirmar = col[0].button(f"Confirmar Edição {index + 1}")
+                btn_excluir = col[0].button(f"Excluir Edição {index + 1}")
 
-        # Botões para confirmar a edição e excluir para cada linha
-        col1, col2, col3 = st.columns(3)
-        col1.empty()
-        with col2:
-            btn_confirmar = col[0].button(f"Confirmar Edição {index + 1}")
-            btn_excluir = col[0].button(f"Excluir Edição {index + 1}")
+            if btn_confirmar:
+                retorno = self.conflitos2(novos_valores[0], novos_valores[1], novos_valores[2])
+                if retorno:
+                        novos_valores = [
+                    str(novos_valores[0]),  # Convertendo data para string
+                    str(novos_valores[1]),  # Convertendo hora_inicio para string
+                    str(novos_valores[2]),  # Convertendo hora_fim para string
+                    novos_valores[3],        # Gestor permanece como está (string)
+                    int(novos_valores[4])    # Convertendo id para inteiro
+                    ]
+                        data, count = self.client.table('sala_de_reuniao').update({'data_agendamento': novos_valores[0],
+                            'hora_inicio': novos_valores[1],
+                            'hora_fim': novos_valores[2]
+                        }).eq('id', novos_valores[4]).execute()
+                        st.success("Agendamento editado com sucesso!")
 
-        if btn_confirmar:
-            retorno = self.conflitos2(novos_valores[0], novos_valores[1], novos_valores[2])
-            if retorno:
-                    novos_valores = [
-                str(novos_valores[0]),  # Convertendo data para string
-                str(novos_valores[1]),  # Convertendo hora_inicio para string
-                str(novos_valores[2]),  # Convertendo hora_fim para string
-                novos_valores[3],        # Gestor permanece como está (string)
-                int(novos_valores[4])    # Convertendo id para inteiro
-                ]
-            data, count = self.client.table('sala_de_reuniao').update({'data_agendamento': novos_valores[0],
-                'hora_inicio': novos_valores[1],
-                'hora_fim': novos_valores[2]
-            }).eq('id', novos_valores[4]).execute()
-            st.success("Agendamento editado com sucesso!")
-
-                # Adicione aqui a lógica para confirmar a edição no seu banco de dados
-                
+                    # Adicione aqui a lógica para confirmar a edição no seu banco de dados
+                    
             if btn_excluir:
-                data, count = self.client.table('sala_de_reuniao').delete().eq('data_agendamento',novos_valores[0]).eq('hora_inicio', novos_valores[1]).eq('hora_fim',novos_valores[2]).execute()
-                st.success("Linha excluída com sucesso!")
-                st.experimental_rerun()
+                    data, count = self.client.table('sala_de_reuniao').delete().eq('data_agendamento',novos_valores[0]).eq('hora_inicio', novos_valores[1]).eq('hora_fim',novos_valores[2]).execute()
+                    st.success("Linha excluída com sucesso!")
+                    st.experimental_rerun()
                 
 
 
