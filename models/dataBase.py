@@ -257,9 +257,9 @@ class SupabaseClient:
                     novo_valor = col[i % num_colunas].date_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).date(), key=chave)
                 elif campo_nome == 'Gestor':
                     # Campo do nome do Gestor é desabilitado para edição
-                    novo_valor = col[i % num_colunas].text_input(f"Novo {campo_nome}:", df[campo_nome].iloc[index], key=chave, disabled=True)
+                    novo_valor = col[i % num_colunas].text_input(f"Gestor {campo_nome}:", df[campo_nome].iloc[index], key=chave, disabled=True)
                 else:
-                    novo_valor = col[i % num_colunas].text_input(f"Novo {campo_nome}:", df[campo_nome].iloc[index], key=chave)
+                    novo_valor = col[i % num_colunas].text_input(f"{campo_nome}:", df[campo_nome].iloc[index], key=chave,disabled=True)
 
 
                 # Adicionar o novo valor à lista
