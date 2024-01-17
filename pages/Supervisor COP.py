@@ -5,30 +5,38 @@ from Outras_paginas.cadastrar_colaborador import main as mainCadastrarColaborado
 from Outras_paginas.registrar_presenca import main as mainRegistarPresenca
 from Outras_paginas.inserir_advertencia import main as mainInserirAdvertencia
 from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,menuHorizontalSupervisorCOP,efetuarLogin,Calculasessao,fazerLogout
-from datetime import datetime, timedelta
+from datetime import datetime
 from PIL import Image
 
 def main():
+
+    #Definindo as variaveis em cookies.
     definirVariaveisDaSessao()
     
+    #Se o login já foi feito, mostre imagem e mais nada.
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
-    # select = st.sidebar.selectbox('&nbsp;',['Selecione','Cadastrar colaborador','Inserir feedbacks','Visualizar feedbacks','Registrar presença','Inserir advertencia'])
+    #Imagem e titulo da SideBart.
     imagemSideBar()
-    # st.sidebar.button('Sair')
+
+    #Botão de logout. local_css é um função.
     def local_css(file_name):
         with open(file_name) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+    #Lendo os estilos
     local_css("estilos/styles.css")
 
-    logout_button_clicked = st.sidebar.button("Logout", key="logout")
+    #Botão de logout
+    logout_button_clicked = st.sidebar.button("Logout")
 
+    #Se o botão de logout for cliclado
     if logout_button_clicked:
         fazerLogout()
         st.experimental_rerun()
     
+    #Se a variavel logado for igual a False, exibe que precisa estar logado
     if st.session_state.logado == False:
         efetuarLogin()
         if st.session_state.sessao:
@@ -41,8 +49,10 @@ def main():
         else:
             return
     
+    #Calcule quanto tempo de sessão
     Calculasessao()
 
+    #Se o usuário estiver logado informao tempo de sessão
     if st.session_state.logado == True:
         if 'last_active_time' in st.session_state:
             elapsed_time = datetime.now() - st.session_state.last_active_time
@@ -53,7 +63,7 @@ def main():
     else:
         st.experimental_rerun()
 
-
+    #Menu horizontal
     menu = menuHorizontalSupervisorCOP()
     if menu == 'Inserir feedbacks':
         mainInserirDados()
@@ -65,9 +75,6 @@ def main():
         mainRegistarPresenca()
     elif menu == 'Inserir advertencia':
         mainInserirAdvertencia()
-
-
-
 
 if __name__ == '__main__':
     main()

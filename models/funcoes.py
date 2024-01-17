@@ -149,7 +149,7 @@ def Calculasessao():
     print('Chamei calcula sessão')
     print(f'{elapsed_time, {datetime}}')
     # Se o tempo decorrido for maior que 10 minutos, reinicialize a sessão
-    if elapsed_time > timedelta(minutes=10):
+    if elapsed_time > timedelta(minutes=20):
         fazerLogout()
         return True
         

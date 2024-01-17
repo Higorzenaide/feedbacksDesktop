@@ -2,7 +2,7 @@
 #Imports
 import streamlit as st
 from models.dataBase import SupabaseClient
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,headerLogin,lerJsonGif,mostrarGif,loginefetuado,menuHorizontal,local_css,Calculasessao
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,fazerLogout,headerLogin,lerJsonGif,mostrarGif,loginefetuado,menuHorizontal,local_css,Calculasessao
 from Outras_paginas.Cadastro import main as mainCadastro
 
 #sessão principal
@@ -38,7 +38,7 @@ def main():
 
     # Se botão logout clicado.
     if logout_button_clicked:
-        st.session_state.logado = False
+        fazerLogout()
         st.experimental_rerun()
 
     #Separando a page em colunas
@@ -59,6 +59,7 @@ def main():
 
     #Instanciando o Banco de dados, para chamar a função.
     supabase_instance = SupabaseClient()
+    
     #Botão clicado chama a função que valida o login
     if input_button:
         supabase_instance.login(input_email,input_pass)
