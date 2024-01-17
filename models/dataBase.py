@@ -115,7 +115,6 @@ class SupabaseClient:
                     }).execute()
 
                     Sucess = st.success('Agendamento efetuado com sucesso')
-                    time.sleep(5)
                     Sucess.empty()
                     return True 
                 else:
@@ -150,7 +149,6 @@ class SupabaseClient:
                 st.error("Conflito de horário! Escolha outro horário para o agendamento.")
                 return False
             else:
-                print("Agendamento realizado com sucesso!")
                 return True
                 # Insira o novo agendamento no banco de dados aqui
 
@@ -221,79 +219,110 @@ class SupabaseClient:
         except Exception as e:
                 st.error("Não há nenhum agendamento nesta data selecionada...")
 
-    def editarAgendamento(self, id,data):
+    def visualizarAgendamentosParaEditar(self,id,data):
         try:
             with st.spinner("Carregando edição de agendamentos..."):
                 response, data = self.client.table('sala_de_reuniao').select('data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor','id').eq('id_gestor', id).eq('data_agendamento', data).execute()
                 response_string = response[1]
                 if response_string == '' or response_string == None or response_string == []:
                     st.error('Você não tem nenhuma agendamento feito nesta data...')
+                return(response_string)
         except Exception as e:
             st.error('Você não tem nenhuma agendamento feito nesta data...')
             return
-        
+
+    def editarAgendamento(self, id,data):
+        # try:
+        #     with st.spinner("Carregando edição de agendamentos..."):
+        #         response, data = self.client.table('sala_de_reuniao').select('data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor','id').eq('id_gestor', id).eq('data_agendamento', data).execute()
+        #         response_string = response[1]
+        #         if response_string == '' or response_string == None or response_string == []:
+        #             st.error('Você não tem nenhuma agendamento feito nesta data...')
+        # except Exception as e:
+        #     st.error('Você não tem nenhuma agendamento feito nesta data...')
+        #     return
+        if 'agenda' not in st.session_state:
+            st.session_state.agenda = False
+
+        def visu():
+            response = self.visualizarAgendamentosParaEditar(id,data)
+            st.session_state.agenda = response
+
+        Visualizar = st.button("Visualizar")
+        if Visualizar:
+            visu()
+
         # Converter a resposta para um DataFrame do pandas
-        response_string = response[1]
-        resposta = json.loads(json.dumps(response_string))
+        
+        if st.session_state.agenda != False:
+            response_string = st.session_state.agenda
+            resposta = json.loads(json.dumps(response_string))
 
-        # Criar DataFrame a partir da lista de dicionários
-        df = pd.DataFrame(resposta, columns=['data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor','id'])
-        
-        # Definir o número de colunas desejado
-        num_colunas = 1
-        
-        for index in range(len(df)):
-            st.write(f"Edição para a linha {index + 1}")
-            col = st.columns(num_colunas)
-            novos_valores = []
-            # Lista para armazenar os novos valores
+            # Criar DataFrame a partir da lista de dicionários
+            df = pd.DataFrame(resposta, columns=['data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor','id'])
             
-            for i, campo_nome in enumerate(df.columns):
-                chave = f"{index}_{campo_nome}"
+            # Definir o número de colunas desejado
+            num_colunas = 1
+            
+            for index in range(len(df)):
+                st.write(f"Edição para agendamento N° : {index + 1}")
+                col = st.columns(num_colunas)
+                novos_valores = []
+                # Lista para armazenar os novos valores
+                
+                for i, campo_nome in enumerate(df.columns):
+                    chave = f"{index}_{campo_nome}"
 
-                if campo_nome == 'hora_inicio' or campo_nome == 'hora_fim':
-                    novo_valor = col[i % num_colunas].time_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).time(), key=chave)
-                elif campo_nome == 'data_agendamento':
-                    novo_valor = col[i % num_colunas].date_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).date(), key=chave)
-                elif campo_nome == 'Gestor':
-                    # Campo do nome do Gestor é desabilitado para edição
-                    novo_valor = col[i % num_colunas].text_input(f"Gestor {campo_nome}:", df[campo_nome].iloc[index], key=chave, disabled=True)
-                else:
-                    novo_valor = col[i % num_colunas].text_input(f"{campo_nome}:", df[campo_nome].iloc[index], key=chave,disabled=True)
+                    if campo_nome == 'hora_inicio' or campo_nome == 'hora_fim':
+                        novo_valor = col[i % num_colunas].time_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).time(), key=chave)
+                    elif campo_nome == 'data_agendamento':
+                        novo_valor = col[i % num_colunas].date_input(f"Nova {campo_nome}:", pd.to_datetime(df[campo_nome].iloc[index]).date(), key=chave)
+                    elif campo_nome == 'Gestor':
+                        # Campo do nome do Gestor é desabilitado para edição
+                        novo_valor = col[i % num_colunas].text_input(f"{campo_nome}:", df[campo_nome].iloc[index], key=chave, disabled=True)
+                    else:
+                        novo_valor = col[i % num_colunas].text_input(f"{campo_nome} do agendamento:", df[campo_nome].iloc[index], key=chave,disabled=True)
 
 
-                # Adicionar o novo valor à lista
-                novos_valores.append(novo_valor)
+                    # Adicionar o novo valor à lista
+                    novos_valores.append(novo_valor)
 
-            # Botões para confirmar a edição e excluir para cada linha
-            col1, col2, col3 = st.columns(3)
-            col1.empty()
-            with col2:
-                btn_confirmar = col[0].button(f"Confirmar Edição {index + 1}")
-                btn_excluir = col[0].button(f"Excluir Edição {index + 1}")
+                # Botões para confirmar a edição e excluir para cada linha
+                col1, col2, col3 = st.columns(3)
+                col1.empty()
+                with col2:
+                    btn_confirmar = col[0].button(f"Confirmar Edição de N° {index + 1}")
+                    btn_excluir = col[0].button(f"Excluir Edição de N° {index + 1}")
 
-            if btn_confirmar:
-                retorno = self.conflitos2(novos_valores[0], novos_valores[1], novos_valores[2])
-                if retorno:
-                        novos_valores = [
-                    str(novos_valores[0]),  # Convertendo data para string
-                    str(novos_valores[1]),  # Convertendo hora_inicio para string
-                    str(novos_valores[2]),  # Convertendo hora_fim para string
-                    novos_valores[3],        # Gestor permanece como está (string)
-                    int(novos_valores[4])    # Convertendo id para inteiro
-                    ]
-                        data, count = self.client.table('sala_de_reuniao').update({'data_agendamento': novos_valores[0],
-                            'hora_inicio': novos_valores[1],
-                            'hora_fim': novos_valores[2]
-                        }).eq('id', novos_valores[4]).execute()
-                        st.success("Agendamento editado com sucesso!")
-
-                    # Adicione aqui a lógica para confirmar a edição no seu banco de dados
-                    
-            if btn_excluir:
-                    data, count = self.client.table('sala_de_reuniao').delete().eq('data_agendamento',novos_valores[0]).eq('hora_inicio', novos_valores[1]).eq('hora_fim',novos_valores[2]).execute()
-                    st.success("Linha excluída com sucesso!")
-                    st.experimental_rerun()
+                if btn_confirmar:
+                    with st.spinner("Atualizando agendamento...."):
+                        retorno = self.conflitos2(novos_valores[0], novos_valores[1], novos_valores[2])
+                        if retorno:
+                                novos_valores = [
+                            str(novos_valores[0]),  # Convertendo data para string
+                            str(novos_valores[1]),  # Convertendo hora_inicio para string
+                            str(novos_valores[2]),  # Convertendo hora_fim para string
+                            novos_valores[3],        # Gestor permanece como está (string)
+                            int(novos_valores[4])    # Convertendo id para inteiro
+                            ]
+                                data, count = self.client.table('sala_de_reuniao').update({'data_agendamento': novos_valores[0],
+                                    'hora_inicio': novos_valores[1],
+                                    'hora_fim': novos_valores[2]
+                                }).eq('id', novos_valores[4]).execute()
+                                st.success("Agendamento editado com sucesso!")
+                                visu()
+                                st.experimental_rerun()
+                            # Adicione aqui a lógica para confirmar a edição no seu banco de dados
+                        
+                if btn_excluir:
+                        with st.spinner("Excluindo agendamento..."):
+                            data, count = self.client.table('sala_de_reuniao').delete().eq('data_agendamento',novos_valores[0]).eq('hora_inicio', novos_valores[1]).eq('hora_fim',novos_valores[2]).execute()
+                            st.success("Linha excluída com sucesso!")
+                            visu()
+                            st.experimental_rerun()
+                        
+        else:
+            st.write("Necessário clicar em visualizar.....")
                 
 
 

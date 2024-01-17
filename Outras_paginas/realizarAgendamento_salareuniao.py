@@ -117,38 +117,40 @@ def main():
 
         # Passar o JSON para a função
         retorno = instanciarSupaBase.inserirAgendamentoSalaReuniao(dados_agendamento_json)
-        if retorno:
-            # Gerar PDF
-            pdf_stream = BytesIO()
-            pdf = SimpleDocTemplate(pdf_stream, pagesize=letter)
+        
+        with st.spinner("Gerando PDF..."):
+            if retorno:
+                # Gerar PDF
+                pdf_stream = BytesIO()
+                pdf = SimpleDocTemplate(pdf_stream, pagesize=letter)
 
-            # Lista para armazenar os elementos do PDF
-            elementos_pdf = []
+                # Lista para armazenar os elementos do PDF
+                elementos_pdf = []
 
-            # Adicionar conteúdo ao PDF
-            elementos_pdf.append(Paragraph("Relatório de Agendamento", getSampleStyleSheet()['Title']))
-            elementos_pdf.append(Spacer(1, 12))
+                # Adicionar conteúdo ao PDF
+                elementos_pdf.append(Paragraph("Relatório de Agendamento", getSampleStyleSheet()['Title']))
+                elementos_pdf.append(Spacer(1, 12))
 
-            # Adicionar imagem ao PDF (substitua "caminho_para_sua_imagem.png" pelo caminho real da sua imagem)
-            imagem_path = "images/AGENDAMENTOREALIZADO.png"
-            elementos_pdf.append(Image(imagem_path, width=4*inch, height=1*inch))
-            elementos_pdf.append(Spacer(1, 30))
-            elementos_pdf.append(Paragraph(f"Data: {data_formatada}", getSampleStyleSheet()['Normal']))
-            elementos_pdf.append(Spacer(1, 15))
-            elementos_pdf.append(Paragraph(f"Hora de Início: {start_time_str}", getSampleStyleSheet()['Normal']))
-            elementos_pdf.append(Spacer(1, 15))
-            elementos_pdf.append(Paragraph(f"Hora de Término: {end_time_str}", getSampleStyleSheet()['Normal']))
-            elementos_pdf.append(Spacer(1, 15))
-            elementos_pdf.append(Paragraph(f"Pessoa que está agendando: {pessoa}", getSampleStyleSheet()['Normal']))
+                # Adicionar imagem ao PDF (substitua "caminho_para_sua_imagem.png" pelo caminho real da sua imagem)
+                imagem_path = "images/AGENDAMENTOREALIZADO.png"
+                elementos_pdf.append(Image(imagem_path, width=4*inch, height=1*inch))
+                elementos_pdf.append(Spacer(1, 30))
+                elementos_pdf.append(Paragraph(f"Data: {data_formatada}", getSampleStyleSheet()['Normal']))
+                elementos_pdf.append(Spacer(1, 15))
+                elementos_pdf.append(Paragraph(f"Hora de Início: {start_time_str}", getSampleStyleSheet()['Normal']))
+                elementos_pdf.append(Spacer(1, 15))
+                elementos_pdf.append(Paragraph(f"Hora de Término: {end_time_str}", getSampleStyleSheet()['Normal']))
+                elementos_pdf.append(Spacer(1, 15))
+                elementos_pdf.append(Paragraph(f"Pessoa que está agendando: {pessoa}", getSampleStyleSheet()['Normal']))
 
-            # Adicione mais informações ou imagens conforme necessário
+                # Adicione mais informações ou imagens conforme necessário
 
-            # Construir o PDF
-            pdf.build(elementos_pdf)
+                # Construir o PDF
+                pdf.build(elementos_pdf)
 
-            # Download do PDF
-            st.markdown("### Download do PDF:")
-            st.markdown(f"[Clique aqui se quiser baixar o pdf do agendamento](data:application/pdf;base64,{base64.b64encode(pdf_stream.getvalue()).decode()})", unsafe_allow_html=True)
+                # Download do PDF
+                st.markdown("### Download do PDF:")
+                st.markdown(f"[Clique aqui se quiser baixar o pdf do agendamento](data:application/pdf;base64,{base64.b64encode(pdf_stream.getvalue()).decode()})", unsafe_allow_html=True)
 
 
 if __name__ == '__main__':
