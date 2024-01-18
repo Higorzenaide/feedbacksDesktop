@@ -34,7 +34,7 @@ def main():
             st.sidebar.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
             st.sidebar.markdown(f'<span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempo de sessão: {formatted_time.split(".")[0]} minutos</span>', unsafe_allow_html=True)
     else:
-        st.experimental_rerun()
+        pass
 
 if __name__ == '__main__':
     main()
