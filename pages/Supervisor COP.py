@@ -43,7 +43,7 @@ def main():
             st.error("Sessão expirada, realize o login novamente...")
             if st.session_state.rerun == False:
                 st.session_state.rerun = True
-                st.experimental_rerun()
+                pass
             else:
                 return
         else:
