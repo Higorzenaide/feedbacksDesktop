@@ -2,13 +2,25 @@
 import streamlit as st
 from models.dataBase import SupabaseClient
 from datetime import datetime, timedelta
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,headerLogin,lerJsonGif,mostrarGif
+from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,efetuarLogin,logout,headerLogin,lerJsonGif,mostrarGif
 
 # Variáveis
 data_minima = datetime(1900, 1, 1)
 data_maxima = datetime.now()
 
 def main():
+
+    #Se a variavel logado for igual a False, exibe que precisa estar logado
+    if st.session_state.logado == False:
+        if st.session_state.sessao:
+            if st.session_state.rerun == False:
+                st.session_state.rerun = True
+                pass
+            else:
+                return
+        else:
+            return
+        
     imagem_url = "images/desenvolvimento1.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
 

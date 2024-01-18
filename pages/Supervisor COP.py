@@ -34,13 +34,13 @@ def main():
     #Se o botão de logout for cliclado
     if logout_button_clicked:
         fazerLogout()
-        st.experimental_rerun()
+        st.rerun()
     
     #Se a variavel logado for igual a False, exibe que precisa estar logado
     if st.session_state.logado == False:
         efetuarLogin()
         if st.session_state.sessao:
-            st.error("Sessão expirada, realize o login novamente...")
+            st.error("Realize o login novamente, para acessar...")
             if st.session_state.rerun == False:
                 st.session_state.rerun = True
                 pass
@@ -50,7 +50,8 @@ def main():
             return
     
     #Calcule quanto tempo de sessão
-    Calculasessao()
+    if st.session_state.logado == True:
+        Calculasessao()
 
     #Se o usuário estiver logado informao tempo de sessão
     if st.session_state.logado == True:
@@ -63,18 +64,20 @@ def main():
     else:
         pass
 
+    if st.session_state.logado == True:
     #Menu horizontal
-    menu = menuHorizontalSupervisorCOP()
-    if menu == 'Inserir feedbacks':
-        mainInserirDados()
-    elif menu == 'Visualizar feedbacks':
-        mainVisualizarDados()
-    elif menu == 'Cadastrar colaborador':
-        mainCadastrarColaborador()
-    elif menu == 'Registrar presença':
-        mainRegistarPresenca()
-    elif menu == 'Inserir advertencia':
-        mainInserirAdvertencia()
+        menu = menuHorizontalSupervisorCOP()
+    
+        if menu == 'Inserir feedbacks':
+            mainInserirDados()
+        elif menu == 'Visualizar feedbacks':
+            mainVisualizarDados()
+        elif menu == 'Cadastrar colaborador':
+            mainCadastrarColaborador()
+        elif menu == 'Registrar presença':
+            mainRegistarPresenca()
+        elif menu == 'Inserir advertencia':
+            mainInserirAdvertencia()
 
 if __name__ == '__main__':
     main()

@@ -1,8 +1,21 @@
 import streamlit as st
 from datetime import datetime
 from models.dataBase import SupabaseClient
-
+from models.funcoes import efetuarLogin
 def main():
+
+    #Se a variavel logado for igual a False, exibe que precisa estar logado
+    if st.session_state.logado == False:
+        efetuarLogin()
+        if st.session_state.sessao:
+            st.error("Sessão expirada, realize o login novamente...")
+            if st.session_state.rerun == False:
+                st.session_state.rerun = True
+                pass
+            else:
+                return
+        else:
+            return
 
     if 'loginValidado' not in st.session_state:
         st.session_state.loginValidado = False
@@ -18,6 +31,7 @@ def main():
                   '&nbsp;&nbsp;****EFETUE LOGIN PARA CONTINUAR****')
 
 def feedback_form():
+
     if 'motivoMicro' not in st.session_state:
         st.session_state.motivoMicro = False
 
