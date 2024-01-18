@@ -28,7 +28,7 @@ def feedback_form():
     st.header(f'Olá, {st.session_state.nomeLogado} insira os dados sobre seu feedback aplicado.')
     input_name = st.text_input(label="Insira o nome completo do colaborador que foi aplicado o feedback:")
     # Monitorando a seleção do primeiro selectbox
-    motivoMacro = st.selectbox('Motivo MACRO do feedback', ['selecione', 'Feedback Positivo', 'Feedback Construtivo', 'Feedback de Desempenho', 'Feedback de Desenvolvimento Profissional', 'Feedback de Colaboração', 'Feedback de Progresso', 'Feedback de Inovação'])
+    motivoMacro = st.selectbox('Motivo MACRO do feedback', ['selecione', 'Feedback Positivo', 'Feedback Corretivo','Feedback Construtivo', 'Feedback de Desempenho', 'Feedback de Desenvolvimento Profissional', 'Feedback de Colaboração', 'Feedback de Progresso', 'Feedback de Inovação'])
     # Determinando as opções do segundo selectbox com base na seleção do primeiro
 
     if motivoMacro == 'Feedback Positivo':
@@ -40,6 +40,13 @@ def feedback_form():
             st.session_state.motivoMicro = False
     elif motivoMacro == 'Feedback Construtivo':
         motivoMicro_opcoes = ['selecione', 'Sugestões claras para melhoria em áreas específicas.', 'Comparação de resultados atuais com desempenho passado.', 'Destaque para áreas de desempenho excepcional.']
+        motivoMicro = st.selectbox('Motivo do feedback', motivoMicro_opcoes)
+        if motivoMicro != 'selecione':
+            st.session_state.motivoMicro = True
+        else:
+            st.session_state.motivoMicro = False
+    elif motivoMacro == 'Feedback Corretivo':
+        motivoMicro_opcoes = ['selecione', 'Avaliação crítica construtiva para estimular a reflexão.', 'Apontamento de comportamentos específicos para ajuste.', 'Identificação de oportunidades de aprendizado.']
         motivoMicro = st.selectbox('Motivo do feedback', motivoMicro_opcoes)
         if motivoMicro != 'selecione':
             st.session_state.motivoMicro = True
@@ -89,6 +96,11 @@ def feedback_form():
 
     # Adicionando um botão para acionar a ação
     if st.button("Enviar"):
+
+        if input_name == '':
+            st.error('Escreva o nome do colaborador')
+            return
+
         if motivoMacro == 'selecione':
             st.error('Selecione um motivo MACRO')
             return
