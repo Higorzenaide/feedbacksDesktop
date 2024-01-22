@@ -160,14 +160,19 @@ class SupabaseClient:
     def conflitos2(self, data_agendamento, hora_inicio, hora_fim):
         try:
             # Obter dados da tabela sala_de_reuniao
-            response, data = self.client.table('sala_de_reuniao').select('data_agendamento', 'hora_inicio', 'hora_fim').eq('data_agendamento', data_agendamento).execute()
+            response, data = self.client.table('sala_de_reuniao').select('data_agendamento', 'hora_inicio', 'hora_fim','id_gestor').eq('data_agendamento', data_agendamento).execute()
 
             # Converter a resposta para um DataFrame do pandas
             response_string = response[1]
             resposta = json.loads(json.dumps(response_string))
             
+            # Filtrar os dados onde "id_gestor" é diferente de st.session_state.id
+            resposta_filtrada = [item for item in resposta if item.get('id_gestor') != st.session_state.id]
+
+            # Criar DataFrame a partir da lista de dicionários filtrada
+            df = pd.DataFrame(resposta_filtrada, columns=['data_agendamento', 'hora_inicio', 'hora_fim'])
             # Criar DataFrame a partir da lista de dicionários
-            df = pd.DataFrame(resposta, columns=['data_agendamento', 'hora_inicio', 'hora_fim'])
+            # df = pd.DataFrame(resposta, columns=['data_agendamento', 'hora_inicio', 'hora_fim'])
 
             # Utilizar datetime.strptime para converter as strings em objetos time
             novo_horario_inicio = hora_inicio
@@ -201,7 +206,6 @@ class SupabaseClient:
                 # Converter a resposta para um DataFrame do pandas
                 response_string = response[1]
                 resposta = json.loads(json.dumps(response_string))
-
                 # Criar DataFrame a partir da lista de dicionários
                 df = pd.DataFrame(resposta, columns=['data_agendamento', 'hora_inicio', 'hora_fim', 'Gestor', 'created_at'])
                 # Renomear as colunas
