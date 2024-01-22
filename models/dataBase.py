@@ -42,6 +42,7 @@ class SupabaseClient:
                     
                     if st.session_state.verificado == False:
                         st.error('Seu usuário ainda não foi liberado, aguarde ou solicite a liberação.')
+                        st.success('Para solicitar liberação solicite: +55 (19) 92002-1690 - Higor Zeinaide | +55 (19) 98399-2678 - Danilo Vargas')
                         return
                     
                     id_value = response.data[0]['id']
