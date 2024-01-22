@@ -17,24 +17,6 @@ def main():
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
-    #Imagem e titulo da SideBart.
-    imagemSideBar()
-
-    #Botão de logout. local_css é um função.
-    def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-    #Lendo os estilos
-    local_css("estilos/styles.css")
-
-    #Botão de logout
-    logout_button_clicked = st.sidebar.button("Logout")
-
-    #Se o botão de logout for cliclado
-    if logout_button_clicked:
-        fazerLogout()
-        st.rerun()
     
     #Se a variavel logado for igual a False, exibe que precisa estar logado
     if st.session_state.logado == False:
@@ -53,6 +35,50 @@ def main():
     if st.session_state.logado == True:
         Calculasessao()
 
+    if st.session_state.logado == True:
+    #Menu horizontal
+        menu = menuHorizontalSupervisorCOP()
+    
+        if menu == 'Inserir feedbacks':
+            mainInserirDados()
+        elif menu == 'Visualizar feedbacks':
+            mainVisualizarDados()
+        elif menu == 'Colaborador':
+            colaborador = st.sidebar.selectbox('Selecione uma opção', ["Cadastrar Colaborador","Cadastrar Equipamento","Editar Dados","Desligamento"])
+            if colaborador == 'Cadastrar Colaborador':
+                mainCadastrarColaborador()
+            elif colaborador == 'Cadastrar Equipamento':
+                return
+            elif colaborador == 'Editar Dados':
+                return
+            elif colaborador == 'Editar Dados':
+                return
+            elif colaborador == 'Desligamento':
+                return
+        elif menu == 'Registrar presença':
+            mainRegistarPresenca()
+        elif menu == 'Inserir advertencia':
+            mainInserirAdvertencia()
+
+    #Imagem e titulo da SideBart.
+    imagemSideBar()
+
+    #Botão de logout. local_css é um função.
+    def local_css(file_name):
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+    #Lendo os estilos
+    local_css("estilos/styles.css")
+
+    #Botão de logout
+    logout_button_clicked = st.sidebar.button("Logout")
+
+    #Se o botão de logout for cliclado
+    if logout_button_clicked:
+        fazerLogout()
+        st.rerun()
+
     #Se o usuário estiver logado informao tempo de sessão
     if st.session_state.logado == True:
         if 'last_active_time' in st.session_state:
@@ -63,21 +89,5 @@ def main():
             st.sidebar.markdown(f'<span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempo de sessão: {formatted_time.split(".")[0]} minutos</span>', unsafe_allow_html=True)
     else:
         pass
-
-    if st.session_state.logado == True:
-    #Menu horizontal
-        menu = menuHorizontalSupervisorCOP()
-    
-        if menu == 'Inserir feedbacks':
-            mainInserirDados()
-        elif menu == 'Visualizar feedbacks':
-            mainVisualizarDados()
-        elif menu == 'Cadastrar colaborador':
-            mainCadastrarColaborador()
-        elif menu == 'Registrar presença':
-            mainRegistarPresenca()
-        elif menu == 'Inserir advertencia':
-            mainInserirAdvertencia()
-
 if __name__ == '__main__':
     main()

@@ -118,7 +118,7 @@ def menuHorizontal():
     return selected2
 
 def menuHorizontalSupervisorCOP():
-    selected2 = option_menu(None, ["Cadastrar colaborador", "Inserir feedbacks","Visualizar feedbacks","Registrar presença","Inserir advertencia","Inserir escala"], 
+    selected2 = option_menu(None, ["Colaborador", "Inserir feedbacks","Visualizar feedbacks","Registrar presença","Inserir advertencia","Inserir escala"], 
         icons=['person', 'graph-up-arrow', "list-task", 'inbox-fill','hand-thumbs-down-fill','calendar2-week'], 
         menu_icon="cast", default_index=0, orientation="horizontal")
     return selected2
