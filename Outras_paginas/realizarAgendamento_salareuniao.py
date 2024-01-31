@@ -75,7 +75,7 @@ def main():
 
     # Agendar Sala de Reunião - Coluna 1
     st.markdown('<p class="header-text">Agendar Sala de Reunião</p>', unsafe_allow_html=True)
-    with st.form("realizarAgendamento", clear_on_submit=True):
+    with st.form("realizarAgendamento"):
         # Data do agendamento
         event_date = st.date_input("Selecione a data do agendamento:")
 

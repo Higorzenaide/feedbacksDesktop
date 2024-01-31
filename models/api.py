@@ -85,6 +85,9 @@ class IniciarAPI:
             retorno_json = response.json()
             dicionario = retorno_json[0]
             if response.status_code == 200:
+                if dicionario == {} or dicionario ==[]:
+                    st.error(dicionario)
+                    return dicionario
                 if "erro" in dicionario:
                     st.error(dicionario)
                     return dicionario
