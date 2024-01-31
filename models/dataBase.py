@@ -142,8 +142,8 @@ class SupabaseClient:
         except Exception as e:
             error = str(e)
             st.write(error)
+            
         if "error" in retorno:
-            st.error(f'Ocorreu um erro: {retorno["error"]}')
             st.error(f'Horario conflitando com outro horario já agendado inicio: {retorno["horario_inicio"]} até {retorno["horario_fim"]}')
             return
         else:
