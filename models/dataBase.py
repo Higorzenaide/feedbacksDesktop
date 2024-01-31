@@ -108,6 +108,9 @@ class SupabaseClient:
             instanciarAPI = api('VisualizarFeedbacks')
             retorno = instanciarAPI.visualizarFeedbacks(dados)
             retorno = pd.DataFrame(retorno)
+            if retorno.empty:
+                st.error("Não possui nenhum feedback inserido")
+                return
             data_inserida_list = retorno["data_inserida"].tolist()
             retorno = retorno.drop("data_inserida", axis=1)
             lista_formata = []
