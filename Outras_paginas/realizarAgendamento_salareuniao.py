@@ -1,19 +1,11 @@
 
 import streamlit as st
-from Outras_paginas.Inserir_Dados import main as mainInserirDados
-from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
-from models.funcoes import configuracoesIniciais,logout,definirVariaveisDaSessao,local_css,menuHorizontalSalaDeReuniao,efetuarLogin
-from Outras_paginas.editar_agendamento_sala import main as mainEditarAgendamentoSala
-from Outras_paginas.visualizar_agendamento_sala import main as mainVisualizarAgendamentoSala
 import calendar
 from models.dataBase import SupabaseClient
-from datetime import datetime, time, timedelta
-import json
-from reportlab.pdfgen import canvas
+from datetime import datetime
 from io import BytesIO
 import base64
 from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
@@ -81,11 +73,11 @@ def main():
 
         #Horario de inicio
         st.write("Horário de Início:")
-        start_time = st.time_input("Selecione a hora de início:", time(today.hour, today.minute))
+        start_time = st.time_input("Selecione a hora de início:", value="now")
 
         #Horario de termino
         st.write("Horário de Término:")
-        end_time = st.time_input("Selecione a hora de término:", time((today.hour + 1) % 24, today.minute))
+        end_time = st.time_input("Selecione a hora de término:", value="now")
 
         #Nome da pessoa que está agendando
         st.write(f'Pessoa que está agendando: {st.session_state.nomeLogado}')

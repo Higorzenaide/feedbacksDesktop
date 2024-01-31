@@ -1,13 +1,9 @@
 import streamlit as st
-from Outras_paginas.Inserir_Dados import main as mainInserirDados
-from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
-from models.funcoes import Calculasessao
 from models.dataBase import SupabaseClient
 from datetime import datetime
 
 
 def main():
-
     #Instanciar SupaBase
     instanciarSupaBase = SupabaseClient()
 

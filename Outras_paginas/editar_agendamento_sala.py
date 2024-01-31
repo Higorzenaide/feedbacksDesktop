@@ -1,13 +1,8 @@
 import streamlit as st
-from Outras_paginas.Inserir_Dados import main as mainInserirDados
-from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
 from models.dataBase import SupabaseClient
 from models.funcoes import efetuarLogin
 import streamlit as st
-import datetime
-import time
-from datetime import datetime, time, timedelta
-from models.api import IniciarAPI as api
+
 
 def main():
     imagem_url = "images/desenvolvimento1.png"  # Substitua pela URL da sua imagem

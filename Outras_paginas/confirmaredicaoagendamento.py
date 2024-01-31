@@ -1,12 +1,11 @@
 import time
-from datetime import datetime, time, timedelta
+from datetime import datetime
 from models.api import IniciarAPI as api
 import streamlit as st
 
 def main():
-    print("entrou dentro")
     params = st.session_state.dados
-    today = datetime.today()
+    
     data_agendamento = params["data_agendamento"]
     data_agendamento_dt = datetime.strptime(data_agendamento, '%d/%m/%y')        
     hora_inicio = params["hora_inicio"]
@@ -36,12 +35,14 @@ def main():
 
     if confirmar:
         instanciarapi = api('EditarAgendamento')
+        
         event_date = event_date.strftime("%Y-%m-%d")
         start_time_str = start_time.strftime("%H:%M:%S")
         end_time_str = end_time.strftime("%H:%M:%S")
+        
         dados = {"data_agendamento":event_date,"hora_inicio": start_time_str,"hora_fim":end_time_str,"id": id,"Gestor": 
         Nome, "id_gestor":st.session_state.id}
-        print(dados)
+        
         st.session_state.editar = False
         try:
             with st.spinner("Efetuando alteração..."):

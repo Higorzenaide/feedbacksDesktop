@@ -13,12 +13,10 @@ def main():
     #Definindo as variaveis em cookies.
     definirVariaveisDaSessao()
     
-    #Se o login já foi feito, mostre imagem e mais nada.
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
-    
-    #Se a variavel logado for igual a False, exibe que precisa estar logado
+    #Se a variavel logado for igual a False, exibe que precisa estar logado.
     if st.session_state.logado == False:
         efetuarLogin()
         if st.session_state.sessao:
@@ -79,7 +77,7 @@ def main():
         fazerLogout()
         st.rerun()
 
-    #Se o usuário estiver logado informao tempo de sessão
+    #Se o usuário estiver logado informao tempo de sessão.
     if st.session_state.logado == True:
         if 'last_active_time' in st.session_state:
             elapsed_time = datetime.now() - st.session_state.last_active_time

@@ -151,13 +151,13 @@ class IniciarAPI:
             print(f'------------------retorno-----------------{retornoapi}')
             if response.status_code == 200:
                 print('entrou--------------------------')
-                if 'error' in retornoapi:
-                    st.error(f'Conflito de horários.')
-                    time.sleep(3)
-                else:
+                if 'sucess' in retornoapi:
                     st.success("Agendamento alterado com sucesso")
                     time.sleep(2)
                     return retornoapi
+                else:
+                    st.error(f'Conflito de horários.')
+                    time.sleep(3)
         except Exception as e:
             error = str(e)
             st.error(f'Ocorreu um erro com a comunicação com a API {error}')

@@ -35,7 +35,6 @@ def definirVariaveisDaSessao():
         st.session_state.editar = False
     if 'dados' not in st.session_state:
         st.session_state.dados = False
-    
 
 
 

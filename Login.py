@@ -26,6 +26,9 @@ def main():
         mainCadastro()
         return
     
+    #Instanciando o Banco de dados, para chamar a função.
+    supabase_instance = SupabaseClient()
+    
     #Imagem e titulo da SideBart.
     imagemSideBar()
 
@@ -56,18 +59,12 @@ def main():
     #Mostrando Gif
     with col2:
         mostrarGif(lottie_codding)
-
-    #Instanciando o Banco de dados, para chamar a função.
-    supabase_instance = SupabaseClient()
     
     #Botão clicado chama a função que valida o login
     if input_button:
         with st.spinner("Realizando login..."):
             supabase_instance.login(input_email,input_pass)
-        
-        #Reseta formulário
-        st.session_state['input_email'] = ''
-        st.session_state['input_pass'] = ''
+
 
 if __name__ == '__main__':
     main()
