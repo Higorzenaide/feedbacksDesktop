@@ -31,6 +31,11 @@ def definirVariaveisDaSessao():
         st.session_state.rerun = False
     if 'sessao' not in st.session_state:
         st.session_state.sessao = False
+    if 'editar' not in st.session_state:
+        st.session_state.editar = False
+    if 'dados' not in st.session_state:
+        st.session_state.dados = False
+    
 
 
 

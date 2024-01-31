@@ -6,6 +6,7 @@ from Outras_paginas.editar_agendamento_sala import main as mainEditarAgendamento
 from Outras_paginas.visualizar_agendamento_sala import main as mainVisualizarAgendamentoSala
 from Outras_paginas.realizarAgendamento_salareuniao import main as mainSalaReuniao
 from datetime import datetime
+from Outras_paginas.confirmaredicaoagendamento import main as mainEditar
 
 def main():
 
@@ -15,40 +16,45 @@ def main():
     #Chamando a função de configurações iniciais, caso não tenha sido iniciado por outra pagina.
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
-
+    
    # Menu horizontal
     menu = menuHorizontalSalaDeReuniao()
 
     #Imagem SideBar
     imagemSideBar()
 
-    #Botão de logout. local_css é um função.
-    def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    # #Botão de logout. local_css é um função.
+    # def local_css(file_name):
+    #     with open(file_name) as f:
+    #         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-    #Lendo os estilos
-    local_css("estilos/styles.css")
+    # #Lendo os estilos
+    # local_css("estilos/styles.css")
 
-    #Botão de logout
-    logout_button_clicked = st.sidebar.button("Logout", key="logout")
+    # #Botão de logout
+    # logout_button_clicked = st.sidebar.button("Logout", key="logout")
 
-    #Se o botão de logout for cliclado
-    if logout_button_clicked:
-        fazerLogout()
-        st.experimental_rerun()
+    # #Se o botão de logout for cliclado
+    # if logout_button_clicked:
+    #     fazerLogout()
+    #     st.experimental_rerun()
 
     if menu == 'Realizar Agendamento':
         if st.session_state.logado == False:
+            st.session_state.editar = False
             efetuarLogin()
             return
         mainSalaReuniao()
     elif menu == 'Visualizar agendamentos':
+        st.session_state.editar = False
         mainVisualizarAgendamentoSala()
         return
     elif menu == 'Editar seu Agendamento':
-        mainEditarAgendamentoSala()
-        return
+        if st.session_state.editar == True:
+            retorno = mainEditar()
+        else:
+            retorno = mainEditarAgendamentoSala()
+            return
     
     #Calcule quanto tempo de sessão
     Calculasessao()

@@ -133,8 +133,10 @@ def feedback_form():
                 st.error('Escreva pelomenos 20 caracteres nos pontos abordados')
                 return
         supaBaseInstance = SupabaseClient()
-        supaBaseInstance.inserirFeedback(data_formatada,motivoMacro,motivoMicro,texto_livre,st.session_state.id,input_name)
-
+        with st.spinner("Inserindo feedback..."):
+            retorno = supaBaseInstance.inserirFeedback(motivoMacro,motivoMicro,texto_livre,st.session_state.id,input_name)
+            return
+        
 
 if __name__ == "__main__":
     main()

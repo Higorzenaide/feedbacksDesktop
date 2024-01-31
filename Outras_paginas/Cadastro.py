@@ -90,8 +90,12 @@ def main():
         st.session_state['input_matricula'] = ''
         st.session_state['input_pass'] = ''
         st.session_state['confirmar_senha'] = ''
-        supabase_instance.new_user(input_email, input_pass, input_name, input_matricula)
-        st.session_state.cadastroEfetuado = True    
+        with st.spinner("Efetuando cadastro..."):
+            retorno = supabase_instance.new_user(input_email, input_pass, input_name, input_matricula)
+            if retorno == True:
+                st.rerun()
+            else:
+                return
         
 if __name__ == '__main__':
     main()

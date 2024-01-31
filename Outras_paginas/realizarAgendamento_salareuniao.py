@@ -75,24 +75,24 @@ def main():
 
     # Agendar Sala de Reunião - Coluna 1
     st.markdown('<p class="header-text">Agendar Sala de Reunião</p>', unsafe_allow_html=True)
+    with st.form("realizarAgendamento", clear_on_submit=True):
+        # Data do agendamento
+        event_date = st.date_input("Selecione a data do agendamento:")
 
-    # Data do agendamento
-    event_date = st.date_input("Selecione a data do agendamento:")
+        #Horario de inicio
+        st.write("Horário de Início:")
+        start_time = st.time_input("Selecione a hora de início:", time(today.hour, today.minute))
 
-    #Horario de inicio
-    st.write("Horário de Início:")
-    start_time = st.time_input("Selecione a hora de início:", time(today.hour, today.minute))
+        #Horario de termino
+        st.write("Horário de Término:")
+        end_time = st.time_input("Selecione a hora de término:", time((today.hour + 1) % 24, today.minute))
 
-    #Horario de termino
-    st.write("Horário de Término:")
-    end_time = st.time_input("Selecione a hora de término:", time((today.hour + 1) % 24, today.minute))
+        #Nome da pessoa que está agendando
+        st.write(f'Pessoa que está agendando: {st.session_state.nomeLogado}')
+        pessoa = st.session_state.nomeLogado
 
-    #Nome da pessoa que está agendando
-    st.write(f'Pessoa que está agendando: {st.session_state.nomeLogado}')
-    pessoa = st.session_state.nomeLogado
-
-    #Botão agendar
-    agendar = st.button("Agendar")
+        #Botão agendar
+        agendar = st.form_submit_button("Agendar")
 
     #Instanciando o SupaBase
     instanciarSupaBase = SupabaseClient()
@@ -112,11 +112,8 @@ def main():
             "Gestor":pessoa
         }
 
-        # Serializar o dicionário para JSON
-        dados_agendamento_json = json.dumps(dados_agendamento)
-
         # Passar o JSON para a função
-        retorno = instanciarSupaBase.inserirAgendamentoSalaReuniao(dados_agendamento_json)
+        retorno = instanciarSupaBase.inserirAgendamentoSalaReuniao(dados_agendamento)
         
         with st.spinner("Gerando PDF..."):
             if retorno:

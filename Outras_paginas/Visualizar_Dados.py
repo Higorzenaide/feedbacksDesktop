@@ -16,8 +16,9 @@ def main():
                 st.error('Seu perfil não está habilitado para inserir feedbacks')
                 return
             else:
-                instanceSupa = SupabaseClient()
-                instanceSupa.visualizarDadosUser(st.session_state.id)
+                with st.spinner("Carregando dados..."):
+                    instanceSupa = SupabaseClient()
+                    instanceSupa.visualizarDadosUser(st.session_state.id)
     else:
         st.header('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
                   '&nbsp;&nbsp;****EFETUE LOGIN PARA CONTINUAR****')

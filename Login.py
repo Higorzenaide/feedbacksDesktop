@@ -39,7 +39,7 @@ def main():
     # Se botão logout clicado.
     if logout_button_clicked:
         fazerLogout()
-        st.experimental_rerun()
+        st.rerun()
 
     #Separando a page em colunas
     col1, col2 = st.columns(2)
@@ -62,7 +62,8 @@ def main():
     
     #Botão clicado chama a função que valida o login
     if input_button:
-        supabase_instance.login(input_email,input_pass)
+        with st.spinner("Realizando login..."):
+            supabase_instance.login(input_email,input_pass)
         
         #Reseta formulário
         st.session_state['input_email'] = ''
