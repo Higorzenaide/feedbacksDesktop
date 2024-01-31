@@ -148,7 +148,7 @@ class IniciarAPI:
             print(f'------------------retorno-----------------{retornoapi}')
             if response.status_code == 200:
                 print('entrou--------------------------')
-                if 'error' in retornoapi[0]:
+                if 'error' in retornoapi:
                     st.error(f'Conflito de horários.')
                     time.sleep(3)
                 else:
