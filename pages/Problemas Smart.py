@@ -54,9 +54,6 @@ def main():
             MainVisualizarTickets()
             
 
-    #Imagem e titulo da SideBart.
-    imagemSideBar()
-
     #Botão de logout. local_css é um função.
     def local_css(file_name):
         with open(file_name) as f:
