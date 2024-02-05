@@ -24,7 +24,7 @@ def editarTicketSmart():
         }
         instanciarAPI = api('EditarTicketSmart')
         retorno = instanciarAPI.editarTicketSmart(dados)
-        st.sucess("Dados Editados com sucesso")
+        st.success("Dados Editados com sucesso")
         st.session_state.editarTicketSmart = False
         time.sleep(3)
         st.rerun()
