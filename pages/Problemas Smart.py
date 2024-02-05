@@ -13,32 +13,42 @@ def main():
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
-    #Se a variavel logado for igual a False, exibe que precisa estar logado.
-    if st.session_state.logado == False:
-        efetuarLogin()
-        if st.session_state.sessao:
-            st.error("Realize o login novamente, para acessar...")
-            if st.session_state.rerun == False:
-                st.session_state.rerun = True
-                pass
-            else:
-                return
-        else:
-            return
     
     #Calcule quanto tempo de sessão
     if st.session_state.logado == True:
         Calculasessao()
 
-    if st.session_state.logado == True:
-    #Menu horizontal
-        menu = menuHorizontalInserirTicket()
+
+    menu = menuHorizontalInserirTicket()
 
     if menu == 'Inserir ticket':
+        #Se a variavel logado for igual a False, exibe que precisa estar logado.
+        if st.session_state.logado == False:
+            efetuarLogin()
+            if st.session_state.sessao:
+                if st.session_state.rerun == False:
+                    st.session_state.rerun = True
+                    pass
+                else:
+                    return
+            else:
+                return
         mainInserirTicket()
     elif menu == 'Visualizar tickets':
         if st.session_state.editarTicketSmart == True:
-            editarTicketSmart()
+            if st.session_state.logado == False:
+                efetuarLogin()
+                st.session_state.editarTicketSmart = False
+                st.error("Você precisa efetuar login para acessar...")
+                # #Lendo os estilos
+                #Botão de logout. local_css é um função.
+                def local_css(file_name):
+                    with open(file_name) as f:
+                        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+                local_css("estilos/styles.css")
+                st.button("Voltar")
+            else:
+                editarTicketSmart()
         else:
             MainVisualizarTickets()
             

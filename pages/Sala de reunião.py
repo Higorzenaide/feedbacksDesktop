@@ -32,6 +32,7 @@ def main():
     elif menu == 'Visualizar agendamentos':
         st.session_state.editar = False
         mainVisualizarAgendamentoSala()
+        return
     elif menu == 'Editar seu Agendamento':
         if st.session_state.editar == True:
             retorno = mainEditar()

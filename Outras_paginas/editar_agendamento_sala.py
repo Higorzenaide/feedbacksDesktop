@@ -5,8 +5,6 @@ import streamlit as st
 
 
 def main():
-    imagem_url = "images/desenvolvimento1.png"  # Substitua pela URL da sua imagem
-    st.image(imagem_url, use_column_width=True)
 
     instanciarSupa = SupabaseClient()
 

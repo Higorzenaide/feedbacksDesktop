@@ -157,14 +157,17 @@ def DefinirSessao():
         st.session_state.last_active_time = datetime.now()
 
 def Calculasessao():
-    # Calculando o tempo decorrido desde a última atividade
-    elapsed_time = datetime.now() - st.session_state.last_active_time
-    print('Chamei calcula sessão')
-    print(f'{elapsed_time, {datetime}}')
-    # Se o tempo decorrido for maior que 10 minutos, reinicialize a sessão
-    if elapsed_time > timedelta(minutes=20):
-        fazerLogout()
+    if st.session_state.logado == True:
+        # Calculando o tempo decorrido desde a última atividade
+        elapsed_time = datetime.now() - st.session_state.last_active_time
+        print('Chamei calcula sessão')
+        print(f'{elapsed_time, {datetime}}')
+        # Se o tempo decorrido for maior que 10 minutos, reinicialize a sessão
+        if elapsed_time > timedelta(minutes=20):
+            fazerLogout()
         return True
+    else:
+        return
         
 def fazerLogout():
         st.session_state.treinamentos = False
