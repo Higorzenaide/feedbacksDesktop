@@ -22,6 +22,7 @@ def main():
     menu = menuHorizontalInserirTicket()
 
     if menu == 'Inserir ticket':
+        st.session_state.editarTicketSmart = False
         #Se a variavel logado for igual a False, exibe que precisa estar logado.
         if st.session_state.logado == False:
             efetuarLogin()
