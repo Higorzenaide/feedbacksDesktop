@@ -161,3 +161,49 @@ class IniciarAPI:
         except Exception as e:
             error = str(e)
             st.error(f'Ocorreu um erro com a comunicação com a API {error}')
+    
+    def inserirTicket(self,dados):
+        try:
+            response = requests.post(self.url,json=dados)
+            retornoapi = response.json()
+            print(f'------------------retorno-----------------{retornoapi}')
+            if response.status_code == 200:
+                print('entrou--------------------------')
+                if 'sucess' in retornoapi[0]:
+                    st.success("Ticket inserido com sucesso")
+                    time.sleep(2)
+                    return retornoapi
+                else:
+                    st.error(f'{retornoapi}')
+                    time.sleep(3)
+        except Exception as e:
+            error = str(e)
+            st.error(f'Ocorreu um erro com a comunicação com a API {error}')
+            
+    def visualizarTickets(self):
+        try:
+            response = requests.get(self.url)
+            retornoapi = response.json()
+            # print(f'------------------retorno-----------------{retornoapi}')
+            if response.status_code == 200:
+                return retornoapi
+            else:
+                st.error(f'{retornoapi}')
+                time.sleep(3)
+        except Exception as e:
+            error = str(e)
+            st.error(f'Ocorreu um erro com a comunicação com a API {error}')
+            
+    def editarTicketSmart(self,dados):
+        try:
+            response = requests.post(self.url,json=dados)
+            retornoapi = response.json()
+            # print(f'------------------retorno-----------------{retornoapi}')
+            if response.status_code == 200:
+                return retornoapi
+            else:
+                st.error(f'{retornoapi}')
+                time.sleep(3)
+        except Exception as e:
+            error = str(e)
+            st.error(f'Ocorreu um erro com a comunicação com a API {error}')

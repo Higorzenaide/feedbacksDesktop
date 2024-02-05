@@ -37,7 +37,6 @@ def main():
             retorno = mainEditar()
         else:
             retorno = mainEditarAgendamentoSala()
-            
     
     #Calcule quanto tempo de sessão
     Calculasessao()

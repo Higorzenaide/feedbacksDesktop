@@ -35,6 +35,10 @@ def definirVariaveisDaSessao():
         st.session_state.editar = False
     if 'dados' not in st.session_state:
         st.session_state.dados = False
+    if 'editarTicketSmart' not in st.session_state:
+        st.session_state.editarTicketSmart = False
+    if 'dados2' not in st.session_state:
+        st.session_state.dados2 = False
 
 
 
@@ -124,6 +128,11 @@ def menuHorizontal():
 def menuHorizontalSupervisorCOP():
     selected2 = option_menu(None, ["Colaborador", "Inserir feedbacks","Visualizar feedbacks","Registrar presença","Inserir advertencia","Inserir escala"], 
         icons=['person', 'graph-up-arrow', "list-task", 'inbox-fill','hand-thumbs-down-fill','calendar2-week'], 
+        menu_icon="cast", default_index=0, orientation="horizontal")
+    return selected2
+
+def menuHorizontalInserirTicket():
+    selected2 = option_menu(None, ["Inserir ticket", "Visualizar tickets"], 
         menu_icon="cast", default_index=0, orientation="horizontal")
     return selected2
 
