@@ -42,6 +42,9 @@ def main():
     
     retorno = instanciarAPI.visualizarTickets()
     retorno = pd.DataFrame(retorno)
+    if retorno.empty:
+        st.error("Não há nenhum ticket nessa data selecionada...")
+        return
     retorno = retorno.rename(columns={"data_incidente":"Data","hora_fim":"Hora fim",
                                       "hora_inicio":"Hora inicio","id":"Id registro","nome_gestor":"Gestor:",
                                       "normalizado":"Tratado?","num_ticket":"N° ticket"})
