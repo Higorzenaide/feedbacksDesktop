@@ -13,7 +13,7 @@ def main():
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
-    
+    imagemSideBar()
     #Calcule quanto tempo de sessão
     if st.session_state.logado == True:
         Calculasessao()
