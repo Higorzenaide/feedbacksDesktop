@@ -77,7 +77,7 @@ def main():
     mapeamento = {True: "Sim", False: "Não"}
     mapeamento02 = {"02:00:00":"Em Aberto"}
     retorno["Tratado?"] = retorno["Tratado?"].map(mapeamento)
-    retorno["Hora fim"] = retorno["Hora fim"].map(mapeamento02)
+    retorno["Hora fim"] = retorno["Hora fim"].apply(lambda x: mapeamento02[x] if x == "02:00:00" else x)
     for index, row in retorno.iterrows():
         col1, col2, col3, col4, col5,col6,col8 = st.columns((1, 1, 1, 1, 1,1,1))
         col1.write(row["Data"])
