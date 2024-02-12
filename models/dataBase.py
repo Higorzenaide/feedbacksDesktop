@@ -251,6 +251,18 @@ class SupabaseClient:
                 st.write(df)
         except Exception as e:
             st.error(str(e))
+            
+    def visualizarAgendamentosInformarNaoComparecimento(self, data_agendamento):
+        try:
+            with st.spinner("Carregando agendamentos..."):
+                instanciarAPI = api('/VisualizarAgendamentos')
+                retorno = instanciarAPI.visualizarAgendamentos(data_agendamento)
+                if retorno == False:
+                    return
+                else:
+                    return (retorno)
+        except Exception as e:
+            st.error(str(e))
 
     def visualizarAgendamentosParaEditar(self,id,data):
         try:

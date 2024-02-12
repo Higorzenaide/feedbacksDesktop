@@ -7,34 +7,30 @@ from Outras_paginas.inserir_ticket import mainInserirTicket
 from Outras_paginas.visualizar_tickets import main as MainVisualizarTickets
 from Outras_paginas.eidtar_ticket_smart import editarTicketSmart
 def main():
+    
     #Definindo as variaveis em cookies.
     definirVariaveisDaSessao()
     
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
+    #Imagem no sideBar
     imagemSideBar()
+    
     #Calcule quanto tempo de sessão
     if st.session_state.logado == True:
         Calculasessao()
 
-
+    #Chamando o menu Horizontal
     menu = menuHorizontalInserirTicket()
 
     if menu == 'Inserir ticket':
         st.session_state.editarTicketSmart = False
-        #Se a variavel logado for igual a False, exibe que precisa estar logado.
         if st.session_state.logado == False:
             efetuarLogin()
-            if st.session_state.sessao:
-                if st.session_state.rerun == False:
-                    st.session_state.rerun = True
-                    pass
-                else:
-                    return
-            else:
-                return
-        mainInserirTicket()
+            return
+        else:
+            mainInserirTicket()
     elif menu == 'Visualizar tickets':
         if st.session_state.editarTicketSmart == True:
             if st.session_state.logado == False:
@@ -48,27 +44,14 @@ def main():
                         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
                 local_css("estilos/styles.css")
                 st.button("Voltar")
+            elif st.session_state.supervisao == False:
+                st.error("Você não tem permissão para executar está ação...")
+                return
             else:
                 editarTicketSmart()
         else:
             MainVisualizarTickets()
-            
 
-    #Botão de logout. local_css é um função.
-    def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-    # #Lendo os estilos
-    # local_css("estilos/styles.css")
-
-    # #Botão de logout
-    # logout_button_clicked = st.sidebar.button("Logout")
-
-    #Se o botão de logout for cliclado
-    # if logout_button_clicked:
-    #     fazerLogout()
-    #     st.rerun()
 
     #Se o usuário estiver logado informao tempo de sessão.
     if st.session_state.logado == True:
@@ -80,5 +63,6 @@ def main():
             st.sidebar.markdown(f'<span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempo de sessão: {formatted_time.split(".")[0]} minutos</span>', unsafe_allow_html=True)
     else:
         pass
+    
 if __name__ == '__main__':
     main()

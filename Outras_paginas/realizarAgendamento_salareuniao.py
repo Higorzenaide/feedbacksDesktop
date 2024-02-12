@@ -16,68 +16,68 @@ def main():
     imagem_url = "images/REUNIAO.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
 
-    # Obter o ano e o mês atual
-    today = datetime.today()
-    year = st.number_input("Digite o ano:", int(today.year - 1), int(today.year + 1), today.year)
-    month = st.number_input("Digite o mês:", 1, 12, today.month)
+#     # Obter o ano e o mês atual
+#     today = datetime.today()
+#     year = st.number_input("Digite o ano:", int(today.year - 1), int(today.year + 1), today.year)
+#     month = st.number_input("Digite o mês:", 1, 12, today.month)
 
-    # Criar o objeto de calendário para o mês e ano fornecidos
-    cal = calendar.monthcalendar(year, month)
+#     # Criar o objeto de calendário para o mês e ano fornecidos
+#     cal = calendar.monthcalendar(year, month)
 
-    # Criar o cabeçalho do calendário
-    header = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
+#     # Criar o cabeçalho do calendário
+#     header = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
 
-    # Iniciar o layout da tabela
-    table = "<table style='width:100%'><tr>"
+#     # Iniciar o layout da tabela
+#     table = "<table style='width:100%'><tr>"
 
-    # Adicionar o cabeçalho à tabela
-    for day in header:
-        table += f"<th>{day}</th>"
-    table += "</tr>"
+#     # Adicionar o cabeçalho à tabela
+#     for day in header:
+#         table += f"<th>{day}</th>"
+#     table += "</tr>"
 
-    # Adicionar os dias do mês à tabela
-    for week in cal:
-        table += "<tr>"
-        for day in week:
-            if day == 0:
-                table += "<td></td>"
-            else:
-                table += f"<td>{day}</td>"
-        table += "</tr>"
+#     # Adicionar os dias do mês à tabela
+#     for week in cal:
+#         table += "<tr>"
+#         for day in week:
+#             if day == 0:
+#                 table += "<td></td>"
+#             else:
+#                 table += f"<td>{day}</td>"
+#         table += "</tr>"
 
-    # Fechar a tabela
-    table += "</table>"
+#     # Fechar a tabela
+#     table += "</table>"
 
-    # Exibir a tabela no Streamlit
-    st.markdown(table, unsafe_allow_html=True)
+#     # Exibir a tabela no Streamlit
+#     st.markdown(table, unsafe_allow_html=True)
 
-   # Definindo estilo para o cabeçalho
-    st.markdown(
-        """
-        <style>
-            .header-text {
-                font-size: 24px;
-                text-align: center;
-                margin-bottom: 20px;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+#    # Definindo estilo para o cabeçalho
+#     st.markdown(
+#         """
+#         <style>
+#             .header-text {
+#                 font-size: 24px;
+#                 text-align: center;
+#                 margin-bottom: 20px;
+#             }
+#         </style>
+#         """,
+#         unsafe_allow_html=True
+#     )
 
     # Agendar Sala de Reunião - Coluna 1
-    st.markdown('<p class="header-text">Agendar Sala de Reunião</p>', unsafe_allow_html=True)
+    st.markdown('<p class="header-text">Agendar Sala de Reunião:</p>', unsafe_allow_html=True)
     with st.form("realizarAgendamento"):
         # Data do agendamento
         event_date = st.date_input("Selecione a data do agendamento:")
 
         #Horario de inicio
         st.write("Horário de Início:")
-        start_time = st.time_input("Selecione a hora de início:", value="now")
+        start_time = st.time_input("Selecione a hora de início: (É possível digitar)", value="now")
 
         #Horario de termino
         st.write("Horário de Término:")
-        end_time = st.time_input("Selecione a hora de término:", value="now")
+        end_time = st.time_input("Selecione a hora de término: (É possível digitar)", value="now")
 
         #Nome da pessoa que está agendando
         st.write(f'Pessoa que está agendando: {st.session_state.nomeLogado}')
@@ -106,40 +106,41 @@ def main():
 
         # Passar o JSON para a função
         retorno = instanciarSupaBase.inserirAgendamentoSalaReuniao(dados_agendamento)
-        
-        with st.spinner("Gerando PDF..."):
-            if retorno:
-                # Gerar PDF
-                pdf_stream = BytesIO()
-                pdf = SimpleDocTemplate(pdf_stream, pagesize=letter)
+        st.session_state.agendamentoSala = True
+        st.rerun()
+        # with st.spinner("Gerando PDF..."):
+        #     if retorno:
+        #         # Gerar PDF
+        #         pdf_stream = BytesIO()
+        #         pdf = SimpleDocTemplate(pdf_stream, pagesize=letter)
 
-                # Lista para armazenar os elementos do PDF
-                elementos_pdf = []
+        #         # Lista para armazenar os elementos do PDF
+        #         elementos_pdf = []
 
-                # Adicionar conteúdo ao PDF
-                elementos_pdf.append(Paragraph("Relatório de Agendamento", getSampleStyleSheet()['Title']))
-                elementos_pdf.append(Spacer(1, 12))
+        #         # Adicionar conteúdo ao PDF
+        #         elementos_pdf.append(Paragraph("Relatório de Agendamento", getSampleStyleSheet()['Title']))
+        #         elementos_pdf.append(Spacer(1, 12))
 
-                # Adicionar imagem ao PDF (substitua "caminho_para_sua_imagem.png" pelo caminho real da sua imagem)
-                imagem_path = "images/AGENDAMENTOREALIZADO.png"
-                elementos_pdf.append(Image(imagem_path, width=4*inch, height=1*inch))
-                elementos_pdf.append(Spacer(1, 30))
-                elementos_pdf.append(Paragraph(f"Data: {data_formatada}", getSampleStyleSheet()['Normal']))
-                elementos_pdf.append(Spacer(1, 15))
-                elementos_pdf.append(Paragraph(f"Hora de Início: {start_time_str}", getSampleStyleSheet()['Normal']))
-                elementos_pdf.append(Spacer(1, 15))
-                elementos_pdf.append(Paragraph(f"Hora de Término: {end_time_str}", getSampleStyleSheet()['Normal']))
-                elementos_pdf.append(Spacer(1, 15))
-                elementos_pdf.append(Paragraph(f"Pessoa que está agendando: {pessoa}", getSampleStyleSheet()['Normal']))
+        #         # Adicionar imagem ao PDF (substitua "caminho_para_sua_imagem.png" pelo caminho real da sua imagem)
+        #         imagem_path = "images/AGENDAMENTOREALIZADO.png"
+        #         elementos_pdf.append(Image(imagem_path, width=4*inch, height=1*inch))
+        #         elementos_pdf.append(Spacer(1, 30))
+        #         elementos_pdf.append(Paragraph(f"Data: {data_formatada}", getSampleStyleSheet()['Normal']))
+        #         elementos_pdf.append(Spacer(1, 15))
+        #         elementos_pdf.append(Paragraph(f"Hora de Início: {start_time_str}", getSampleStyleSheet()['Normal']))
+        #         elementos_pdf.append(Spacer(1, 15))
+        #         elementos_pdf.append(Paragraph(f"Hora de Término: {end_time_str}", getSampleStyleSheet()['Normal']))
+        #         elementos_pdf.append(Spacer(1, 15))
+        #         elementos_pdf.append(Paragraph(f"Pessoa que está agendando: {pessoa}", getSampleStyleSheet()['Normal']))
 
-                # Adicione mais informações ou imagens conforme necessário
+        #         # Adicione mais informações ou imagens conforme necessário
 
-                # Construir o PDF
-                pdf.build(elementos_pdf)
+        #         # Construir o PDF
+        #         pdf.build(elementos_pdf)
 
-                # Download do PDF
-                st.markdown("### Download do PDF:")
-                st.markdown(f"[Clique aqui se quiser baixar o pdf do agendamento](data:application/pdf;base64,{base64.b64encode(pdf_stream.getvalue()).decode()})", unsafe_allow_html=True)
+        #         # Download do PDF
+        #         st.markdown("### Download do PDF:")
+        #         st.markdown(f"[Clique aqui se quiser baixar o pdf do agendamento](data:application/pdf;base64,{base64.b64encode(pdf_stream.getvalue()).decode()})", unsafe_allow_html=True)
 
 
 if __name__ == '__main__':

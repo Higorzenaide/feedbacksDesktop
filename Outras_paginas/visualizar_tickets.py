@@ -103,7 +103,6 @@ def main():
             
             st.session_state.dados2 = dados
             st.rerun()
-            
-            
+
 if __name__ == '__main__':
     main()

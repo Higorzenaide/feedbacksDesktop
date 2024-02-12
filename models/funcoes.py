@@ -39,6 +39,20 @@ def definirVariaveisDaSessao():
         st.session_state.editarTicketSmart = False
     if 'dados2' not in st.session_state:
         st.session_state.dados2 = False
+    if 'agendamentoSala' not in st.session_state:
+        st.session_state.agendamentoSala = False
+    if 'informarNaoComp' not in st.session_state:
+        st.session_state.informarNaoComp = False
+    if 'informarNaoCompHoraInicio' not in st.session_state:
+        st.session_state.informarNaoCompHoraInicio = False
+    if 'informarNaoCompHoraFim' not in st.session_state:
+        st.session_state.informarNaoCompHoraFim = False
+    if 'informarNaoCompPessoaQueAgendou' not in st.session_state:
+        st.session_state.informarNaoCompPessoaQueAgendou = False
+    if 'informarNaoCompDataAgendada' not in st.session_state:
+        st.session_state.informarNaoCompDataAgendada = False
+    if 'informarNaoCompDataAtual' not in st.session_state:
+        st.session_state.informarNaoCompDataAtual = False
 
 
 
@@ -137,7 +151,7 @@ def menuHorizontalInserirTicket():
     return selected2
 
 def menuHorizontalSalaDeReuniao():
-    selected2 = option_menu(None, ["Realizar Agendamento", "Visualizar agendamentos","Editar seu Agendamento"], 
+    selected2 = option_menu(None, ["Realizar Agendamento", "Visualizar agendamentos","Editar seu Agendamento","Informar não comparecimento"], 
         icons=['person', 'graph-up-arrow', "list-task", 'inbox-fill','hand-thumbs-down-fill','calendar2-week'], 
         menu_icon="cast", default_index=0, orientation="horizontal")
     return selected2
@@ -160,8 +174,6 @@ def Calculasessao():
     if st.session_state.logado == True:
         # Calculando o tempo decorrido desde a última atividade
         elapsed_time = datetime.now() - st.session_state.last_active_time
-        print('Chamei calcula sessão')
-        print(f'{elapsed_time, {datetime}}')
         # Se o tempo decorrido for maior que 10 minutos, reinicialize a sessão
         if elapsed_time > timedelta(minutes=20):
             fazerLogout()
@@ -183,3 +195,8 @@ def fazerLogout():
         st.session_state.last_active_time = False
         st.session_state.sessao = True
         return
+    
+def informativoAgendamentoSala():
+    st.info("Atenção seu agendamento foi realizado...")
+    st.info("Para garantir o bom uso da sala de reunião você precisa comparecer em até 15m do seu horario inicial agendado...")
+    st.info("Caso contrário ele será cancelado. Por outro colaborador que queira usar.")
