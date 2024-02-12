@@ -148,10 +148,10 @@ class IniciarAPI:
         try:
             response = requests.post(self.url,json=dados)
             retornoapi = response.json()
-            print(f'------------------retorno-----------------{retornoapi}')
+            print(f'------------------retorno-----------------{retornoapi[0]}')
             if response.status_code == 200:
                 print('entrou--------------------------')
-                if 'sucess' in retornoapi:
+                if 'sucess' in retornoapi[0]:
                     st.success("Agendamento alterado com sucesso")
                     time.sleep(2)
                     return retornoapi
