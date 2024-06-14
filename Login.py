@@ -14,7 +14,7 @@ def main():
     #Chamando a função de configurações iniciais, caso não tenha sido iniciado por outra pagina.
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
-    st.sucess("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
+    st.write("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
     return
     #Se o login já foi feito, mostre imagem e mais nada.
     if st.session_state.logado:
