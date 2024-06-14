@@ -1,16 +1,16 @@
 import streamlit as st
-from Outras_paginas.Inserir_Dados import main as mainInserirDados
-from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
-from models.funcoes import configuracoesIniciais,definirVariaveisDaSessao,local_css,imagemSideBar,Calculasessao,fazerLogout,menuHorizontalSalaDeReuniao,efetuarLogin
-from Outras_paginas.editar_agendamento_sala import main as mainEditarAgendamentoSala
-from Outras_paginas.visualizar_agendamento_sala import main as mainVisualizarAgendamentoSala
-from Outras_paginas.realizarAgendamento_salareuniao import main as mainSalaReuniao
-from datetime import datetime
+#from Outras_paginas.Inserir_Dados import main as mainInserirDados
+#from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
+#from models.funcoes import configuracoesIniciais,definirVariaveisDaSessao,local_css,imagemSideBar,Calculasessao,fazerLogout,menuHorizontalSalaDeReuniao,efetuarLogin
+#from Outras_paginas.editar_agendamento_sala import main as mainEditarAgendamentoSala
+#from Outras_paginas.visualizar_agendamento_sala import main as mainVisualizarAgendamentoSala
+#from Outras_paginas.realizarAgendamento_salareuniao import main as mainSalaReuniao
+#from datetime import datetime
 
 def main():
 
     #Definindo as variaveis em cookies.
-    definirVariaveisDaSessao()
+    #definirVariaveisDaSessao()
     st.write("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
     return
 
