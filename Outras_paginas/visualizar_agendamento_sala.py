@@ -14,7 +14,8 @@ def main():
     #Exibe imagem Hearder
     imagem_url = "images/visureuniao.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
-    
+    st.write("O site da sala de reunião foi migrado para o site 'https://gestao-cop.vercel.app/sala_reuniao'")
+    return
     #Selecionar a data que deseja visualizar
     event_date = st.date_input("Selecione a data do agendamento:")
 
