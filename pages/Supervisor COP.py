@@ -1,17 +1,17 @@
 import streamlit as st
-from Outras_paginas.Inserir_Dados import main as mainInserirDados
-from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
-from Outras_paginas.cadastrar_colaborador import main as mainCadastrarColaborador
-from Outras_paginas.registrar_presenca import main as mainRegistarPresenca
-from Outras_paginas.inserir_advertencia import main as mainInserirAdvertencia
-from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,menuHorizontalSupervisorCOP,efetuarLogin,Calculasessao,fazerLogout
-from datetime import datetime
-from PIL import Image
+#from Outras_paginas.Inserir_Dados import main as mainInserirDados
+#from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
+#from Outras_paginas.cadastrar_colaborador import main as mainCadastrarColaborador
+#from Outras_paginas.registrar_presenca import main as mainRegistarPresenca
+#from Outras_paginas.inserir_advertencia import main as mainInserirAdvertencia
+#from models.funcoes import configuracoesIniciais,imagemSideBar,definirVariaveisDaSessao,logout,menuHorizontalSupervisorCOP,efetuarLogin,Calculasessao,fazerLogout
+#from datetime import datetime
+#from PIL import Image
 
 def main():
 
     #Definindo as variaveis em cookies.
-    definirVariaveisDaSessao()
+    #definirVariaveisDaSessao()
     st.write("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
     return
     #Se o login já foi feito, mostre imagem e mais nada.
