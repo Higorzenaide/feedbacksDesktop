@@ -24,6 +24,9 @@ def main():
     imagem_url = "images/REUNIAO.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
 
+    st.write("O site da sala de reunião está sendo migrado, estamos passando todos os agendamentos para o outro site. Dentro de 01hr liberamos o novo link")
+    return
+    
     # Obter o ano e o mês atual
     today = datetime.today()
     year = st.number_input("Digite o ano:", int(today.year - 1), int(today.year + 1), today.year)
