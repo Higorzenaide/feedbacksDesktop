@@ -7,7 +7,8 @@ from models.funcoes import efetuarLogin
 def main():
     imagem_url = "images/desenvolvimento1.png"  # Substitua pela URL da sua imagem
     st.image(imagem_url, use_column_width=True)
-
+    st.write("O site da sala de reunião foi migrado para o site 'https://gestao-cop.vercel.app/sala_reuniao'")
+    return
     instanciarSupa = SupabaseClient()
 
 
