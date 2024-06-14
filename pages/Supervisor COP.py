@@ -12,7 +12,8 @@ def main():
 
     #Definindo as variaveis em cookies.
     definirVariaveisDaSessao()
-    
+    st.write("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
+    return
     #Se o login já foi feito, mostre imagem e mais nada.
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
