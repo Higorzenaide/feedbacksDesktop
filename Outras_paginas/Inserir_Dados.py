@@ -3,7 +3,8 @@ from datetime import datetime
 from models.dataBase import SupabaseClient
 from models.funcoes import efetuarLogin
 def main():
-
+st.write("O site da sala de feedbacks foi migrado para o site 'https://gestao-cop.vercel.app/feedback/aplicar_feedback'")
+    return
     #Se a variavel logado for igual a False, exibe que precisa estar logado
     if st.session_state.logado == False:
         efetuarLogin()
