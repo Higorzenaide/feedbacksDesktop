@@ -14,7 +14,7 @@ def main():
 
     #Imagem e titulo SideBart
     imagemSideBar()
-    st.sucess("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
+    st.write("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
     return
     #Valida se o usuário está logado
     if st.session_state.logado == False:
