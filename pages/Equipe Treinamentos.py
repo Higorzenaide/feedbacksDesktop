@@ -5,6 +5,8 @@ from models.funcoes import configuracoesIniciais,logout,definirVariaveisDaSessao
 
 def main():
     definirVariaveisDaSessao()
+    st.write("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
+    return
     if st.session_state.configuracoesIniciais == False:
         configuracoesIniciais()
 
