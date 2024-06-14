@@ -1,10 +1,10 @@
 import streamlit as st
-from Outras_paginas.Inserir_Dados import main as mainInserirDados
-from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
-from models.funcoes import configuracoesIniciais,logout,definirVariaveisDaSessao
+#from Outras_paginas.Inserir_Dados import main as mainInserirDados
+#from Outras_paginas.Visualizar_Dados import main as mainVisualizarDados
+#from models.funcoes import configuracoesIniciais,logout,definirVariaveisDaSessao
 
 def main():
-    definirVariaveisDaSessao()
+    #definirVariaveisDaSessao()
     st.write("O site GCP foi migrado para 'https://gestao-cop.vercel.app/home' ")
     return
     if st.session_state.configuracoesIniciais == False:
